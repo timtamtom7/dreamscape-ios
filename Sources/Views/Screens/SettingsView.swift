@@ -34,15 +34,53 @@ struct SettingsView: View {
 
                             if viewModel.settings.cloudSyncEnabled {
                                 HStack {
-                                    Text("Status")
-                                        .font(AppFonts.body)
-                                        .foregroundColor(AppColors.textSecondary)
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        HStack(spacing: 6) {
+                                            if CloudSyncService.shared.isSyncing {
+                                                ProgressView()
+                                                    .scaleEffect(0.7)
+                                                    .tint(AppColors.auroraCyan)
+                                                Text("Syncing...")
+                                                    .font(AppFonts.caption)
+                                                    .foregroundColor(AppColors.auroraCyan)
+                                            } else {
+                                                Circle()
+                                                    .fill(CloudSyncService.shared.isCloudAvailable ? AppColors.success : AppColors.error)
+                                                    .frame(width: 8, height: 8)
+                                                Text(CloudSyncService.shared.isCloudAvailable ? "Connected" : "Unavailable")
+                                                    .font(AppFonts.body)
+                                                    .foregroundColor(
+                                                        CloudSyncService.shared.isCloudAvailable ? AppColors.success : AppColors.textMuted
+                                                    )
+                                            }
+                                        }
+
+                                        if let lastSync = CloudSyncService.shared.lastSyncDate {
+                                            Text("Last synced: \(lastSync.relativeFormatted())")
+                                                .font(AppFonts.caption)
+                                                .foregroundColor(AppColors.textMuted)
+                                        }
+
+                                        if let error = CloudSyncService.shared.syncError {
+                                            Text(error)
+                                                .font(AppFonts.caption)
+                                                .foregroundColor(AppColors.error)
+                                                .lineLimit(2)
+                                        }
+                                    }
                                     Spacer()
-                                    Text(CloudSyncService.shared.isCloudAvailable ? "Connected" : "Unavailable")
-                                        .font(AppFonts.body)
-                                        .foregroundColor(
-                                            CloudSyncService.shared.isCloudAvailable ? AppColors.success : AppColors.textMuted
-                                        )
+
+                                    Button(action: {
+                                        Task {
+                                            await viewModel.triggerCloudSync()
+                                        }
+                                    }) {
+                                        Image(systemName: "arrow.triangle.2.circlepath")
+                                            .foregroundColor(AppColors.auroraCyan)
+                                            .padding(8)
+                                            .background(AppColors.surface)
+                                            .cornerRadius(8)
+                                    }
                                 }
                             }
                         }

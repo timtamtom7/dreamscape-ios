@@ -14,6 +14,7 @@ final class SettingsViewModel: ObservableObject {
 
     private let settingsKey = "dreamscape_settings"
     private let cloudSyncService = CloudSyncService.shared
+    private let databaseService = DatabaseService.shared
 
     init() {
         settings = SettingsViewModel.loadSettings()
@@ -106,5 +107,14 @@ final class SettingsViewModel: ObservableObject {
 
     func setTheme(_ theme: AppTheme) {
         settings.selectedTheme = theme
+    }
+
+    func triggerCloudSync() async {
+        do {
+            let dreams = try databaseService.fetchAllDreams()
+            try await cloudSyncService.syncDreams(dreams)
+        } catch {
+            print("Cloud sync error: \(error)")
+        }
     }
 }

@@ -53,6 +53,8 @@
     <string>Dreamscape uses speech recognition to transcribe your voice-recorded dreams into text.</string>
     <key>NSMicrophoneUsageDescription</key>
     <string>Dreamscape needs microphone access to record your voice dream logs.</string>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>Dreamscape can attach photos to your dream entries to provide visual context.</string>
     <key>UIUserInterfaceStyle</key>
     <string>Dark</string>
     <key>BGTaskSchedulerPermittedIdentifiers</key>

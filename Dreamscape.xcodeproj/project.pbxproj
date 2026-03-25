@@ -30,6 +30,7 @@
 		A531E81AF896D82D54D7EE32 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 601D7A4CC9A6E21D69748B45 /* ContentView.swift */; };
 		A8E73DDD82EA4DE81E91811A /* WaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77DF8965E1CEA4C58740CAB /* WaveformView.swift */; };
 		B0154C4E58C03964C2D1D52F /* DreamEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857805413126F56F21151588 /* DreamEntryView.swift */; };
+		B0476707E84C1355836F34E5 /* DreamShareCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 080ECB6551A48F59384FB828 /* DreamShareCardView.swift */; };
 		BEFA1F1ED1F23CE0D4D9A1CB /* DreamAnalysisService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4B9F342E6D4D46BA9F817EA /* DreamAnalysisService.swift */; };
 		CDB1A5D0738966188CE1ACA8 /* SymbolChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8123C87B51562254B54E06C /* SymbolChip.swift */; };
 		D5658EEA88B7E0F5668E1688 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C02A64A390D92D0FD5B9BC /* SettingsViewModel.swift */; };
@@ -46,6 +47,7 @@
 		01BF9C2DFE751CA1C61A0B03 /* SymbolsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolsViewModel.swift; sourceTree = "<group>"; };
 		01FADD005DFFD2C986BE3696 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		051938EF9A598B01CCDAE4A3 /* Dream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dream.swift; sourceTree = "<group>"; };
+		080ECB6551A48F59384FB828 /* DreamShareCardView.swift */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = sourcecode.swift; path = DreamShareCardView.swift; sourceTree = "<group>"; };
 		0894CC01986B4AFEF24179DE /* DreamListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DreamListView.swift; sourceTree = "<group>"; };
 		0A08852F2CB2DA71B5C36305 /* Dreamscape.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Dreamscape.entitlements; sourceTree = "<group>"; };
 		133A4306C796D3F2EBA7C273 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 				8FCEEFEC40770EE3CE170DE4 /* SettingsView.swift */,
 				36967D4530CBE91EB04EFE4A /* SymbolDetailView.swift */,
 				3C00C477C9633BDE13D1DE42 /* SymbolsListView.swift */,
+				080ECB6551A48F59384FB828 /* DreamShareCardView.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -265,6 +268,7 @@
 			packageReferences = (
 				D025BFA1BE2F4FFDA491CE00 /* XCRemoteSwiftPackageReference "SQLite.swift" */,
 			);
+			productRefGroup = B17B1068F863D5AE1A46E4C4 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
@@ -318,6 +322,7 @@
 				4F153D9B610BF5330D54E4D4 /* SymbolsViewModel.swift in Sources */,
 				6434883DA9E59821D73039E3 /* Theme.swift in Sources */,
 				A8E73DDD82EA4DE81E91811A /* WaveformView.swift in Sources */,
+				B0476707E84C1355836F34E5 /* DreamShareCardView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -333,7 +338,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Sources/Resources/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dreamscape.app;
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -412,7 +420,10 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				GENERATE_INFOPLIST_FILE = NO;
 				INFOPLIST_FILE = Sources/Resources/Info.plist;
-				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
 				PRODUCT_BUNDLE_IDENTIFIER = com.dreamscape.app;
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;

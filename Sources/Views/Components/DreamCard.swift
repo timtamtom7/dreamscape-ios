@@ -15,6 +15,20 @@ struct DreamCard: View {
                         .font(AppFonts.caption)
                         .foregroundColor(AppColors.auroraCyan)
 
+                    // R2: Mood indicator dot
+                    if let mood = dream.mood {
+                        Circle()
+                            .fill(mood.color)
+                            .frame(width: 6, height: 6)
+                    }
+
+                    // R2: Lucid indicator
+                    if dream.isLucid {
+                        Image(systemName: "eye.fill")
+                            .font(.system(size: 8))
+                            .foregroundColor(AppColors.nebulaPink)
+                    }
+
                     Spacer()
 
                     if !dream.symbols.isEmpty {

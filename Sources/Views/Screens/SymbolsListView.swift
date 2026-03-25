@@ -145,9 +145,32 @@ struct SymbolRow: View {
                     .foregroundColor(symbol.category.color)
             }
 
-            Text(symbol.name)
-                .font(AppFonts.body)
-                .foregroundColor(AppColors.textPrimary)
+            VStack(alignment: .leading, spacing: 2) {
+                Text(symbol.name)
+                    .font(AppFonts.body)
+                    .foregroundColor(AppColors.textPrimary)
+
+                HStack(spacing: 6) {
+                    // Rarity indicator
+                    Image(systemName: symbol.rarityLevel.icon)
+                        .font(.system(size: 8))
+                        .foregroundColor(symbol.rarityLevel.color)
+
+                    Text(symbol.rarityLevel.rawValue)
+                        .font(.system(size: 9))
+                        .foregroundColor(symbol.rarityLevel.color)
+
+                    // Emotional tag if present
+                    if let emotionalTag = symbol.emotionalTag {
+                        Text("•")
+                            .font(.system(size: 8))
+                            .foregroundColor(AppColors.textMuted)
+                        Text(emotionalTag)
+                            .font(.system(size: 9))
+                            .foregroundColor(AppColors.nebulaPink)
+                    }
+                }
+            }
 
             Spacer()
 

@@ -3,6 +3,10 @@ import SwiftUI
 struct DreamMapView: View {
     @EnvironmentObject var viewModel: DreamMapViewModel
     @State private var selectedSymbolForDetail: Symbol?
+    @State private var mapScale: CGFloat = 1.0
+    @State private var lastScale: CGFloat = 1.0
+    @State private var mapOffset: CGSize = .zero
+    @State private var lastOffset: CGSize = .zero
 
     var body: some View {
         NavigationStack {
@@ -22,24 +26,71 @@ struct DreamMapView: View {
                         legendView
                             .padding(.vertical, 12)
 
-                        // Map canvas
-                        DreamMapCanvas(
-                            nodes: viewModel.nodes,
-                            edges: viewModel.edges,
-                            selectedNodeId: viewModel.selectedNodeId,
-                            onNodeTap: { nodeId in
-                                if let node = viewModel.nodes.first(where: { $0.id == nodeId }) {
-                                    selectedSymbolForDetail = node.symbol
+                        // Zoom indicator
+                        zoomIndicator
+
+                        // Map canvas with pinch-to-zoom
+                        GeometryReader { geometry in
+                            DreamMapCanvas(
+                                nodes: viewModel.nodes,
+                                edges: viewModel.edges,
+                                selectedNodeId: viewModel.selectedNodeId,
+                                onNodeTap: { nodeId in
+                                    if let node = viewModel.nodes.first(where: { $0.id == nodeId }) {
+                                        selectedSymbolForDetail = node.symbol
+                                    }
                                 }
-                            }
-                        )
+                            )
+                            .scaleEffect(mapScale)
+                            .offset(mapOffset)
+                            .gesture(
+                                MagnificationGesture()
+                                    .onChanged { value in
+                                        let delta = value / lastScale
+                                        lastScale = value
+                                        mapScale = min(max(mapScale * delta, 0.5), 3.0)
+                                    }
+                                    .onEnded { _ in
+                                        lastScale = 1.0
+                                    }
+                            )
+                            .simultaneousGesture(
+                                DragGesture()
+                                    .onChanged { value in
+                                        mapOffset = CGSize(
+                                            width: lastOffset.width + value.translation.width,
+                                            height: lastOffset.height + value.translation.height
+                                        )
+                                    }
+                                    .onEnded { _ in
+                                        lastOffset = mapOffset
+                                    }
+                            )
+                            .gesture(
+                                TapGesture(count: 2)
+                                    .onEnded {
+                                        withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+                                            mapScale = 1.0
+                                            mapOffset = .zero
+                                            lastOffset = .zero
+                                        }
+                                    }
+                            )
+                        }
                         .padding()
 
                         // Instructions
-                        Text("Tap a symbol to see details")
-                            .font(AppFonts.caption)
-                            .foregroundColor(AppColors.textMuted)
-                            .padding(.bottom, 16)
+                        HStack(spacing: 16) {
+                            Text("Pinch to zoom • Drag to pan")
+                                .font(AppFonts.caption)
+                                .foregroundColor(AppColors.textMuted)
+                            Text("•")
+                                .foregroundColor(AppColors.textMuted)
+                            Text("Tap a symbol for details")
+                                .font(AppFonts.caption)
+                                .foregroundColor(AppColors.textMuted)
+                        }
+                        .padding(.bottom, 16)
                     }
                 }
             }
@@ -47,6 +98,21 @@ struct DreamMapView: View {
             .navigationBarTitleDisplayMode(.large)
             .toolbarBackground(AppColors.backgroundPrimary, for: .navigationBar)
             .toolbarColorScheme(.dark, for: .navigationBar)
+            .toolbar {
+                ToolbarItem(placement: .primaryAction) {
+                    Button(action: {
+                        withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
+                            mapScale = 1.0
+                            mapOffset = .zero
+                            lastOffset = .zero
+                        }
+                        viewModel.loadData()
+                    }) {
+                        Image(systemName: "arrow.clockwise")
+                            .foregroundColor(AppColors.auroraCyan)
+                    }
+                }
+            }
             .sheet(item: $selectedSymbolForDetail) { symbol in
                 SymbolDetailView(symbol: symbol)
             }
@@ -76,11 +142,23 @@ struct DreamMapView: View {
         .padding()
     }
 
+    private var zoomIndicator: some View {
+        Text("Zoom: \(Int(mapScale * 100))%")
+            .font(AppFonts.caption)
+            .foregroundColor(AppColors.textMuted)
+            .padding(.horizontal, 10)
+            .padding(.vertical, 4)
+            .background(AppColors.surface.opacity(0.8))
+            .cornerRadius(8)
+    }
+
     private var timeFilterPicker: some View {
         HStack(spacing: 0) {
             ForEach(MapTimeFilter.allCases, id: \.self) { filter in
                 Button(action: {
-                    viewModel.setTimeFilter(filter)
+                    withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                        viewModel.setTimeFilter(filter)
+                    }
                 }) {
                     Text(filter.rawValue)
                         .font(AppFonts.callout)

@@ -1,4 +1,5 @@
 import SwiftUI
+import PhotosUI
 
 struct DreamEntryView: View {
     @Environment(\.dismiss) private var dismiss
@@ -11,6 +12,13 @@ struct DreamEntryView: View {
     @State private var showDiscardAlert = false
     @State private var speechService = SpeechService()
 
+    // R2: Enhanced fields
+    @State private var selectedMood: MoodTag?
+    @State private var isLucid = false
+    @State private var attachedPhotoItem: PhotosPickerItem?
+    @State private var attachedImageData: Data?
+    @State private var showMoodPicker = false
+
     enum EntryMode: String, CaseIterable {
         case voice = "Voice"
         case typed = "Type"
@@ -19,38 +27,59 @@ struct DreamEntryView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                AppColors.backgroundPrimary.ignoresSafeArea()
+                // R2: Animated star field background
+                StarFieldBackground(starCount: 120)
+                    .opacity(0.6)
 
-                VStack(spacing: 24) {
-                    // Mode picker
-                    Picker("Entry Mode", selection: $entryMode) {
-                        ForEach(EntryMode.allCases, id: \.self) { mode in
-                            Text(mode.rawValue).tag(mode)
+                // Parallax star layer
+                StarFieldBackground(starCount: 60)
+                    .opacity(0.3)
+                    .offset(y: -20)
+
+                AppColors.backgroundPrimary.opacity(0.85)
+                    .ignoresSafeArea()
+
+                ScrollView {
+                    VStack(spacing: 24) {
+                        // Mode picker
+                        Picker("Entry Mode", selection: $entryMode) {
+                            ForEach(EntryMode.allCases, id: \.self) { mode in
+                                Text(mode.rawValue).tag(mode)
+                            }
                         }
-                    }
-                    .pickerStyle(.segmented)
-                    .padding(.horizontal)
+                        .pickerStyle(.segmented)
+                        .padding(.horizontal)
 
-                    if entryMode == .voice {
-                        voiceEntryView
-                    } else {
-                        typedEntryView
-                    }
-
-                    Spacer()
-
-                    // Save button
-                    if canSave {
-                        GlowingButton(title: "Save Dream", icon: "sparkles") {
-                            saveDream()
+                        if entryMode == .voice {
+                            voiceEntryView
+                        } else {
+                            typedEntryView
                         }
-                        .padding(.bottom, 32)
+
+                        // R2: Mood picker section
+                        moodPickerSection
+
+                        // R2: Lucid dreaming toggle
+                        lucidToggleSection
+
+                        // R2: Photo attachment
+                        photoAttachmentSection
+
+                        Spacer()
+
+                        // Save button
+                        if canSave {
+                            GlowingButton(title: "Save Dream", icon: "sparkles") {
+                                saveDream()
+                            }
+                            .padding(.bottom, 32)
+                        }
                     }
                 }
             }
             .navigationTitle("New Dream")
             .navigationBarTitleDisplayMode(.inline)
-            .toolbarBackground(AppColors.backgroundPrimary, for: .navigationBar)
+            .toolbarBackground(AppColors.backgroundPrimary.opacity(0.9), for: .navigationBar)
             .toolbarColorScheme(.dark, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .cancellationAction) {
@@ -72,13 +101,21 @@ struct DreamEntryView: View {
             } message: {
                 Text("Your dream entry will be lost.")
             }
+            .onChange(of: attachedPhotoItem) { _, newItem in
+                Task { @MainActor in
+                    if let data = try? await newItem?.loadTransferable(type: Data.self) {
+                        attachedImageData = data
+                    }
+                }
+            }
         }
     }
+
+    // MARK: - Voice Entry
 
     private var voiceEntryView: some View {
         VStack(spacing: 32) {
             if speechService.isRecording {
-                // Recording in progress
                 VStack(spacing: 16) {
                     RecordingIndicator()
 
@@ -107,7 +144,6 @@ struct DreamEntryView: View {
                     }
                 }
             } else {
-                // Ready to record
                 VStack(spacing: 16) {
                     Image(systemName: "mic.fill")
                         .font(.system(size: 48))
@@ -145,7 +181,7 @@ struct DreamEntryView: View {
                             .foregroundColor(AppColors.textPrimary)
                             .multilineTextAlignment(.center)
                             .padding()
-                            .background(AppColors.surface)
+                            .background(AppColors.surface.opacity(0.8))
                             .cornerRadius(12)
                     }
                     .padding(.horizontal)
@@ -154,6 +190,8 @@ struct DreamEntryView: View {
         }
         .padding(.top, 32)
     }
+
+    // MARK: - Typed Entry
 
     private var typedEntryView: some View {
         VStack(spacing: 16) {
@@ -174,7 +212,7 @@ struct DreamEntryView: View {
                     .frame(minHeight: 200)
             }
             .padding()
-            .background(AppColors.surface)
+            .background(AppColors.surface.opacity(0.8))
             .cornerRadius(16)
             .padding(.horizontal)
 
@@ -185,8 +223,103 @@ struct DreamEntryView: View {
         }
     }
 
+    // MARK: - R2: Mood Picker
+
+    private var moodPickerSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Mood")
+                .font(AppFonts.captionBold)
+                .foregroundColor(AppColors.textMuted)
+                .textCase(.uppercase)
+                .padding(.horizontal)
+
+            ScrollView(.horizontal, showsIndicators: false) {
+                HStack(spacing: 10) {
+                    ForEach(MoodTag.allCases) { mood in
+                        MoodChip(
+                            mood: mood,
+                            isSelected: selectedMood == mood,
+                            onTap: {
+                                if selectedMood == mood {
+                                    selectedMood = nil
+                                } else {
+                                    selectedMood = mood
+                                }
+                            }
+                        )
+                    }
+                }
+                .padding(.horizontal)
+            }
+        }
+    }
+
+    // MARK: - R2: Lucid Toggle
+
+    private var lucidToggleSection: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Lucid Dreaming")
+                    .font(AppFonts.body)
+                    .foregroundColor(AppColors.textPrimary)
+
+                Text("Were you aware you were dreaming?")
+                    .font(AppFonts.caption)
+                    .foregroundColor(AppColors.textSecondary)
+            }
+
+            Spacer()
+
+            Toggle("", isOn: $isLucid)
+                .labelsHidden()
+                .tint(AppColors.nebulaPink)
+        }
+        .padding()
+        .background(AppColors.surface.opacity(0.8))
+        .cornerRadius(16)
+        .padding(.horizontal)
+    }
+
+    // MARK: - R2: Photo Attachment
+
+    private var photoAttachmentSection: some View {
+        VStack(alignment: .leading, spacing: 12) {
+            Text("Attach Photo (optional)")
+                .font(AppFonts.captionBold)
+                .foregroundColor(AppColors.textMuted)
+                .textCase(.uppercase)
+                .padding(.horizontal)
+
+            HStack(spacing: 12) {
+                PhotosPicker(selection: $attachedPhotoItem, matching: .images) {
+                    HStack(spacing: 8) {
+                        Image(systemName: attachedImageData == nil ? "camera.fill" : "camera.fill.badge.checkmark")
+                            .foregroundColor(attachedImageData == nil ? AppColors.auroraCyan : AppColors.success)
+                        Text(attachedImageData == nil ? "Add Photo" : "Photo Added")
+                            .font(AppFonts.callout)
+                            .foregroundColor(AppColors.textPrimary)
+                    }
+                    .padding(.horizontal, 16)
+                    .padding(.vertical, 10)
+                    .background(AppColors.surface.opacity(0.8))
+                    .cornerRadius(12)
+                }
+
+                if attachedImageData != nil {
+                    Button(action: { attachedImageData = nil; attachedPhotoItem = nil }) {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundColor(AppColors.error)
+                    }
+                }
+            }
+            .padding(.horizontal)
+        }
+    }
+
+    // MARK: - Helpers
+
     private var hasContent: Bool {
-        !typedContent.trimmed.isEmpty || !speechService.transcribedText.isEmpty
+        !typedContent.trimmed.isEmpty || !speechService.transcribedText.isEmpty || attachedImageData != nil
     }
 
     private var canSave: Bool {
@@ -217,12 +350,48 @@ struct DreamEntryView: View {
         let content = entryMode == .voice ? speechService.transcribedText : typedContent
 
         Task {
-            await viewModel.saveDream(content: content)
+            await viewModel.saveDream(
+                content: content,
+                mood: selectedMood,
+                isLucid: isLucid,
+                photoData: attachedImageData
+            )
             await MainActor.run {
                 isSaving = false
                 dismiss()
             }
         }
+    }
+}
+
+// MARK: - Mood Chip
+
+struct MoodChip: View {
+    let mood: MoodTag
+    let isSelected: Bool
+    let onTap: () -> Void
+
+    var body: some View {
+        Button(action: onTap) {
+            HStack(spacing: 6) {
+                Image(systemName: mood.icon)
+                    .font(.caption)
+                Text(mood.displayName)
+                    .font(AppFonts.callout)
+            }
+            .padding(.horizontal, 14)
+            .padding(.vertical, 8)
+            .background(
+                Capsule()
+                    .fill(isSelected ? mood.color.opacity(0.3) : AppColors.surface)
+            )
+            .overlay(
+                Capsule()
+                    .stroke(isSelected ? mood.color : Color.clear, lineWidth: 1.5)
+            )
+            .foregroundColor(isSelected ? mood.color : AppColors.textSecondary)
+        }
+        .buttonStyle(PlainButtonStyle())
     }
 }
 

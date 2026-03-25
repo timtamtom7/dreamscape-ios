@@ -13,11 +13,13 @@ final class DreamAnalysisService {
         let symbols = extractSymbols(from: text)
         let summary = generateSummary(from: text, symbols: symbols)
         let themes = detectThemes(from: text)
+        let emotionalTags = extractEmotionalTags(from: text)
 
         return DreamAnalysisResult(
             symbols: symbols,
             summary: summary,
-            themes: themes
+            themes: themes,
+            emotionalTags: emotionalTags
         )
     }
 
@@ -114,6 +116,10 @@ final class DreamAnalysisService {
         return objectKeywords.contains(word)
     }
 
+    private func extractEmotionalTags(from text: String) -> [String] {
+        extractEmotionalKeywords(from: text)
+    }
+
     private func extractEmotionalKeywords(from text: String) -> [String] {
         let emotionKeywords: [(keywords: [String], emotion: String)] = [
             (["happy", "joy", "joyful", "excited", "delighted", "cheerful", "glad", "pleased", "thrilled", "ecstatic"], "Happiness"),
@@ -198,4 +204,5 @@ struct DreamAnalysisResult {
     let symbols: [Symbol]
     let summary: String
     let themes: [String]
+    let emotionalTags: [String]
 }

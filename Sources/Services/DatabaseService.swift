@@ -18,6 +18,12 @@ final class DatabaseService {
     private let dreamSummary = SQLite.Expression<String>("summary")
     private let dreamCreatedAt = SQLite.Expression<Date>("created_at")
     private let dreamUpdatedAt = SQLite.Expression<Date>("updated_at")
+    // R2: Enhanced dream columns
+    private let dreamMood = SQLite.Expression<String?>("mood")
+    private let dreamIsLucid = SQLite.Expression<Bool>("is_lucid")
+    private let dreamRecurringVariantId = SQLite.Expression<String?>("recurring_variant_id")
+    private let dreamAttachedPhotoURL = SQLite.Expression<String?>("attached_photo_url")
+    private let dreamEmotionalTags = SQLite.Expression<String>("emotional_tags")
 
     // Symbol columns
     private let symbolId = SQLite.Expression<String>("id")
@@ -25,10 +31,14 @@ final class DatabaseService {
     private let symbolCategory = SQLite.Expression<String>("category")
     private let symbolFrequency = SQLite.Expression<Int>("frequency")
     private let symbolLastSeen = SQLite.Expression<Date>("last_seen")
+    // R2: Enhanced symbol columns
+    private let symbolEmotionalTag = SQLite.Expression<String?>("emotional_tag")
+    private let symbolRarityScore = SQLite.Expression<Double>("rarity_score")
 
     // Dream-Symbol junction columns
     private let junctionDreamId = SQLite.Expression<String>("dream_id")
     private let junctionSymbolId = SQLite.Expression<String>("symbol_id")
+    private let junctionEmotionalTag = SQLite.Expression<String?>("emotional_tag")
 
     private init() {
         setupDatabase()
@@ -55,6 +65,12 @@ final class DatabaseService {
                 t.column(dreamSummary)
                 t.column(dreamCreatedAt)
                 t.column(dreamUpdatedAt)
+                // R2 columns
+                t.column(dreamMood)
+                t.column(dreamIsLucid, defaultValue: false)
+                t.column(dreamRecurringVariantId)
+                t.column(dreamAttachedPhotoURL)
+                t.column(dreamEmotionalTags, defaultValue: "")
             })
 
             try db.run(symbols.create(ifNotExists: true) { t in
@@ -63,11 +79,15 @@ final class DatabaseService {
                 t.column(symbolCategory)
                 t.column(symbolFrequency)
                 t.column(symbolLastSeen)
+                // R2 columns
+                t.column(symbolEmotionalTag)
+                t.column(symbolRarityScore, defaultValue: 0.5)
             })
 
             try db.run(dreamSymbols.create(ifNotExists: true) { t in
                 t.column(junctionDreamId)
                 t.column(junctionSymbolId)
+                t.column(junctionEmotionalTag)
                 t.primaryKey(junctionDreamId, junctionSymbolId)
             })
         } catch {
@@ -80,19 +100,27 @@ final class DatabaseService {
     func saveDream(_ dream: Dream) throws {
         guard let db = db else { throw DatabaseError.connectionFailed }
 
+        let emotionalTagsString = dream.emotionalTags.joined(separator: ",")
+
         let insert = dreams.insert(or: .replace,
             dreamId <- dream.id.uuidString,
             dreamContent <- dream.content,
             dreamSummary <- dream.summary,
             dreamCreatedAt <- dream.createdAt,
-            dreamUpdatedAt <- dream.updatedAt
+            dreamUpdatedAt <- dream.updatedAt,
+            // R2 fields
+            dreamMood <- dream.mood?.rawValue,
+            dreamIsLucid <- dream.isLucid,
+            dreamRecurringVariantId <- dream.recurringVariantId?.uuidString,
+            dreamAttachedPhotoURL <- dream.attachedPhotoURL?.absoluteString,
+            dreamEmotionalTags <- emotionalTagsString
         )
         try db.run(insert)
 
         // Save associated symbols
         for symbol in dream.symbols {
             try saveSymbol(symbol)
-            try linkDreamSymbol(dreamId: dream.id, symbolId: symbol.id)
+            try linkDreamSymbol(dreamId: dream.id, symbolId: symbol.id, emotionalTag: symbol.emotionalTag)
         }
     }
 
@@ -103,13 +131,24 @@ final class DatabaseService {
         for row in try db.prepare(dreams.order(dreamCreatedAt.desc)) {
             let id = UUID(uuidString: row[dreamId])!
             let dreamSymbolsList = try fetchSymbolsForDream(id: id)
+
+            let mood: MoodTag? = row[dreamMood].flatMap { MoodTag(rawValue: $0) }
+            let recurringId: UUID? = row[dreamRecurringVariantId].flatMap { UUID(uuidString: $0) }
+            let photoURL: URL? = row[dreamAttachedPhotoURL].flatMap { URL(string: $0) }
+            let emotionalTags = row[dreamEmotionalTags].split(separator: ",").map(String.init).filter { !$0.isEmpty }
+
             let dream = Dream(
                 id: id,
                 content: row[dreamContent],
                 summary: row[dreamSummary],
                 symbols: dreamSymbolsList,
                 createdAt: row[dreamCreatedAt],
-                updatedAt: row[dreamUpdatedAt]
+                updatedAt: row[dreamUpdatedAt],
+                mood: mood,
+                isLucid: row[dreamIsLucid],
+                recurringVariantId: recurringId,
+                attachedPhotoURL: photoURL,
+                emotionalTags: emotionalTags
             )
             result.append(dream)
         }
@@ -123,13 +162,24 @@ final class DatabaseService {
         guard let row = try db.pluck(query) else { return nil }
 
         let dreamSymbolsList = try fetchSymbolsForDream(id: id)
+
+        let mood: MoodTag? = row[dreamMood].flatMap { MoodTag(rawValue: $0) }
+        let recurringId: UUID? = row[dreamRecurringVariantId].flatMap { UUID(uuidString: $0) }
+        let photoURL: URL? = row[dreamAttachedPhotoURL].flatMap { URL(string: $0) }
+        let emotionalTags = row[dreamEmotionalTags].split(separator: ",").map(String.init).filter { !$0.isEmpty }
+
         return Dream(
             id: id,
             content: row[dreamContent],
             summary: row[dreamSummary],
             symbols: dreamSymbolsList,
             createdAt: row[dreamCreatedAt],
-            updatedAt: row[dreamUpdatedAt]
+            updatedAt: row[dreamUpdatedAt],
+            mood: mood,
+            isLucid: row[dreamIsLucid],
+            recurringVariantId: recurringId,
+            attachedPhotoURL: photoURL,
+            emotionalTags: emotionalTags
         )
     }
 
@@ -154,7 +204,10 @@ final class DatabaseService {
             symbolName <- symbol.name,
             symbolCategory <- symbol.category.rawValue,
             symbolFrequency <- symbol.frequency,
-            symbolLastSeen <- symbol.lastSeen
+            symbolLastSeen <- symbol.lastSeen,
+            // R2 fields
+            symbolEmotionalTag <- symbol.emotionalTag,
+            symbolRarityScore <- symbol.rarityScore
         )
         try db.run(insert)
     }
@@ -172,7 +225,9 @@ final class DatabaseService {
                 name: row[symbolName],
                 category: category,
                 frequency: row[symbolFrequency],
-                lastSeen: row[symbolLastSeen]
+                lastSeen: row[symbolLastSeen],
+                emotionalTag: row[symbolEmotionalTag],
+                rarityScore: row[symbolRarityScore]
             )
             result.append(symbol)
         }
@@ -195,7 +250,9 @@ final class DatabaseService {
                 name: symbolRow[symbolName],
                 category: category,
                 frequency: symbolRow[symbolFrequency],
-                lastSeen: symbolRow[symbolLastSeen]
+                lastSeen: symbolRow[symbolLastSeen],
+                emotionalTag: row[junctionEmotionalTag] ?? symbolRow[symbolEmotionalTag],
+                rarityScore: symbolRow[symbolRarityScore]
             )
             result.append(symbol)
         }
@@ -216,12 +273,13 @@ final class DatabaseService {
         return result
     }
 
-    private func linkDreamSymbol(dreamId: UUID, symbolId: UUID) throws {
+    private func linkDreamSymbol(dreamId: UUID, symbolId: UUID, emotionalTag: String?) throws {
         guard let db = db else { throw DatabaseError.connectionFailed }
 
         let insert = dreamSymbols.insert(or: .ignore,
             junctionDreamId <- dreamId.uuidString,
-            junctionSymbolId <- symbolId.uuidString
+            junctionSymbolId <- symbolId.uuidString,
+            junctionEmotionalTag <- emotionalTag
         )
         try db.run(insert)
     }

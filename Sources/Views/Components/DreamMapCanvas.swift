@@ -6,16 +6,17 @@ struct DreamMapCanvas: View {
     let selectedNodeId: UUID?
     let onNodeTap: (UUID) -> Void
 
-    @State private var draggedNodeId: UUID?
-    @State private var nodePositions: [UUID: CGPoint] = [:]
+    @State private var animatedPositions: [UUID: CGPoint] = [:]
+    @State private var nodeVelocities: [UUID: CGPoint] = [:]
+    @State private var timer: Timer?
 
     var body: some View {
         GeometryReader { geometry in
             ZStack {
                 // Draw edges
                 ForEach(edges) { edge in
-                    if let sourcePos = positionFor(edge.sourceId),
-                       let targetPos = positionFor(edge.targetId) {
+                    if let sourcePos = animatedPositions[edge.sourceId],
+                       let targetPos = animatedPositions[edge.targetId] {
                         EdgeView(
                             start: sourcePos,
                             end: targetPos,
@@ -25,22 +26,24 @@ struct DreamMapCanvas: View {
                     }
                 }
 
-                // Draw nodes
+                // Draw nodes with spring animation
                 ForEach(nodes) { node in
                     NodeView(
                         node: node,
                         isSelected: node.id == selectedNodeId,
                         isHighlighted: isNodeHighlighted(node.id)
                     )
-                    .position(positionFor(node.id) ?? node.position)
+                    .position(animatedPositions[node.id] ?? node.position)
                     .gesture(
                         DragGesture()
                             .onChanged { value in
-                                draggedNodeId = node.id
-                                nodePositions[node.id] = value.location
+                                animatedPositions[node.id] = value.location
                             }
                             .onEnded { _ in
-                                draggedNodeId = nil
+                                // Settle back with spring
+                                withAnimation(.spring(response: 0.6, dampingFraction: 0.7)) {
+                                    settleNode(node.id)
+                                }
                             }
                     )
                     .onTapGesture {
@@ -50,13 +53,107 @@ struct DreamMapCanvas: View {
             }
             .frame(width: geometry.size.width, height: geometry.size.height)
         }
+        .onAppear {
+            initializePositions()
+            startSimulation()
+        }
+        .onDisappear {
+            timer?.invalidate()
+        }
+        .onChange(of: nodes.count) { _, _ in
+            initializePositions()
+        }
     }
 
-    private func positionFor(_ id: UUID) -> CGPoint? {
-        if let dragged = draggedNodeId, dragged == id {
-            return nodePositions[id]
+    private func initializePositions() {
+        for node in nodes {
+            if animatedPositions[node.id] == nil {
+                animatedPositions[node.id] = node.position
+            }
         }
-        return nodes.first { $0.id == id }?.position
+    }
+
+    private func settleNode(_ id: UUID) {
+        // Spring physics: find equilibrium position
+        guard let current = animatedPositions[id] else { return }
+        let center = CGPoint(x: 200, y: 300)
+        let radius: CGFloat = 150
+        let index = nodes.firstIndex(where: { $0.id == id }) ?? 0
+        let angle = (2 * .pi / CGFloat(max(nodes.count, 1))) * CGFloat(index)
+        let target = CGPoint(
+            x: center.x + radius * cos(angle),
+            y: center.y + radius * sin(angle)
+        )
+        animatedPositions[id] = target
+    }
+
+    private func startSimulation() {
+        timer?.invalidate()
+        timer = Timer.scheduledTimer(withTimeInterval: 1 / 60.0, repeats: true) { _ in
+            updatePhysics()
+        }
+    }
+
+    private func updatePhysics() {
+        guard nodes.count > 1 else { return }
+
+        var forces: [UUID: CGPoint] = [:]
+
+        // Repulsion between all nodes
+        for i in nodes {
+            forces[i.id] = .zero
+            for j in nodes where j.id != i.id {
+                guard let posI = animatedPositions[i.id],
+                      let posJ = animatedPositions[j.id] else { continue }
+
+                let delta = CGPoint(x: posI.x - posJ.x, y: posI.y - posJ.y)
+                let distance = max(sqrt(delta.x * delta.x + delta.y * delta.y), 1)
+                let repulsion: CGFloat = 2000 / (distance * distance)
+                let normalized = CGPoint(x: delta.x / distance, y: delta.y / distance)
+                forces[i.id] = CGPoint(
+                    x: forces[i.id]!.x + normalized.x * repulsion,
+                    y: forces[i.id]!.y + normalized.y * repulsion
+                )
+            }
+        }
+
+        // Attraction along edges
+        for edge in edges {
+            guard let posSource = animatedPositions[edge.sourceId],
+                  let posTarget = animatedPositions[edge.targetId] else { continue }
+
+            let delta = CGPoint(x: posTarget.x - posSource.x, y: posTarget.y - posSource.y)
+            let distance = max(sqrt(delta.x * delta.x + delta.y * delta.y), 1)
+            let attraction: CGFloat = 0.05 * CGFloat(edge.strength)
+            let normalized = CGPoint(x: delta.x / distance, y: delta.y / distance)
+
+            forces[edge.sourceId] = CGPoint(
+                x: forces[edge.sourceId]!.x + normalized.x * attraction,
+                y: forces[edge.sourceId]!.y + normalized.y * attraction
+            )
+            forces[edge.targetId] = CGPoint(
+                x: forces[edge.targetId]!.x - normalized.x * attraction,
+                y: forces[edge.targetId]!.y - normalized.y * attraction
+            )
+        }
+
+        // Apply forces with spring damping
+        for node in nodes {
+            guard let current = animatedPositions[node.id],
+                  let force = forces[node.id] else { continue }
+
+            let velocity = CGPoint(
+                x: (nodeVelocities[node.id]?.x ?? 0) * 0.8 + force.x,
+                y: (nodeVelocities[node.id]?.y ?? 0) * 0.8 + force.y
+            )
+            nodeVelocities[node.id] = velocity
+
+            let newPosition = CGPoint(
+                x: current.x + velocity.x,
+                y: current.y + velocity.y
+            )
+            animatedPositions[node.id] = newPosition
+        }
     }
 
     private func isNodeHighlighted(_ nodeId: UUID) -> Bool {
@@ -81,15 +178,22 @@ struct NodeView: View {
     let isHighlighted: Bool
 
     @State private var isAppearing = false
+    @State private var pulseScale: CGFloat = 1.0
 
     var body: some View {
         VStack(spacing: 4) {
             ZStack {
-                // Glow effect
+                // Outer glow
                 Circle()
-                    .fill(node.symbol.category.color.opacity(0.3))
-                    .frame(width: nodeSize + 16, height: nodeSize + 16)
-                    .blur(radius: isSelected || isHighlighted ? 8 : 4)
+                    .fill(node.symbol.category.color.opacity(0.2))
+                    .frame(width: nodeSize + 20, height: nodeSize + 20)
+                    .blur(radius: isSelected || isHighlighted ? 12 : 6)
+                    .scaleEffect(isSelected || isHighlighted ? pulseScale : 1.0)
+
+                // Mid glow
+                Circle()
+                    .fill(node.symbol.category.color.opacity(0.25))
+                    .frame(width: nodeSize + 12, height: nodeSize + 12)
 
                 // Main circle
                 Circle()
@@ -105,10 +209,14 @@ struct NodeView: View {
                         )
                     )
                     .frame(width: nodeSize, height: nodeSize)
+                    .overlay(
+                        Circle()
+                            .stroke(Color.white.opacity(0.3), lineWidth: 1)
+                    )
 
                 // Icon
                 Image(systemName: node.symbol.category.icon)
-                    .font(.system(size: nodeSize * 0.4))
+                    .font(.system(size: nodeSize * 0.4, weight: .medium))
                     .foregroundColor(.white)
             }
 
@@ -124,13 +232,21 @@ struct NodeView: View {
             withAnimation(.spring(response: 0.6, dampingFraction: 0.7).delay(Double.random(in: 0...0.3))) {
                 isAppearing = true
             }
+
+            // Pulse animation for selected/highlighted nodes
+            if isSelected || isHighlighted {
+                withAnimation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true)) {
+                    pulseScale = 1.15
+                }
+            }
         }
     }
 
     private var nodeSize: CGFloat {
         let baseSize: CGFloat = 32
         let frequencyBonus = CGFloat(min(node.symbol.frequency, 5)) * 4
-        return baseSize + frequencyBonus
+        let selectedBonus: CGFloat = (isSelected || isHighlighted) ? 8 : 0
+        return baseSize + frequencyBonus + selectedBonus
     }
 }
 

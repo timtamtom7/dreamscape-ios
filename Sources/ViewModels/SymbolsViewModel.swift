@@ -10,6 +10,7 @@ final class SymbolsViewModel: ObservableObject {
     @Published var isLoading = false
     @Published var selectedSymbol: Symbol?
     @Published var dreamsForSymbol: [Dream] = []
+    @Published var symbolDiaryEntriesMap: [UUID: [SymbolDiaryEntry]] = [:]
 
     private let databaseService = DatabaseService.shared
     private var cancellables = Set<AnyCancellable>()
@@ -79,5 +80,9 @@ final class SymbolsViewModel: ObservableObject {
 
     func toggleSortOrder() {
         sortByFrequency.toggle()
+    }
+
+    func symbolDiaryEntries(for symbolId: UUID) -> [SymbolDiaryEntry] {
+        symbolDiaryEntriesMap[symbolId] ?? []
     }
 }
