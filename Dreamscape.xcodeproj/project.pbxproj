@@ -8,17 +8,23 @@
 
 /* Begin PBXBuildFile section */
 		03CC768272D1391D2302856C /* SQLite in Frameworks */ = {isa = PBXBuildFile; productRef = B478EA5AC619FAE1E0FED4C4 /* SQLite */; };
+		04B74ADD8527680E72330A4D /* WidgetViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4B953F4440C4E256DECDA145 /* WidgetViews.swift */; };
 		0A33F5BEB7CA3A5628FED791 /* Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 005E52278788128105CD1C8F /* Extensions.swift */; };
+		18C79134A3466D84CBCD7C4F /* CommunityService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 40D465E8DC0E31FF77E7CBBC /* CommunityService.swift */; };
+		1AA85006CB306F5F78FF6B18 /* PDFExportService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2E2538A5CF6ECB260BA2D4E /* PDFExportService.swift */; };
 		28EDC4E42C80114B2CB41F58 /* Fonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0BF91A76976DFFE783E2D33 /* Fonts.swift */; };
 		32C3D5A0F7E6C2FA05ED21A5 /* AuroraDreamCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CCBA4BB028D27C481DDFDC2 /* AuroraDreamCard.swift */; };
+		38476B27E6A01078CC64B55F /* CommunityView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 72A6A51F12CE1A4B61458482 /* CommunityView.swift */; };
 		3D3D71FB4AC3C30393C63552 /* Symbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7C5C4EBA87BDC0E09D7165C /* Symbol.swift */; };
 		418D96F90FCFA133C93B14C8 /* StarFieldBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = C04917DA39025D11399FFC71 /* StarFieldBackground.swift */; };
+		45D00B99CFA36413A633437E /* SleepLabModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA86F7ADF118AA09A05CCBA3 /* SleepLabModel.swift */; };
 		4A543FA011532856BBDCFFE3 /* DreamShareCardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 39FA887A2919B0B9589B9CD0 /* DreamShareCardView.swift */; };
 		4E0DFEC499B3CE297416B586 /* DreamListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0894CC01986B4AFEF24179DE /* DreamListView.swift */; };
 		4F153D9B610BF5330D54E4D4 /* SymbolsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01BF9C2DFE751CA1C61A0B03 /* SymbolsViewModel.swift */; };
 		50C7EC4C7593DE5DDEB24016 /* DreamMapCanvas.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E3923A25C69ED6355286E92 /* DreamMapCanvas.swift */; };
 		5472368570C913280E144F8D /* LucidDreamingCoachView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4D8DE5F15B1A27BA862C1612 /* LucidDreamingCoachView.swift */; };
 		5C2C635F06C9D48579C94902 /* DreamMapView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2A0FF397DDD2374BC7825F56 /* DreamMapView.swift */; };
+		5CAF77131E109B260B23C4C1 /* DreamJournalExportView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 070146235BFA3AA1D75864B1 /* DreamJournalExportView.swift */; };
 		5E9BF29AAFAA170D2033CFB3 /* JournalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 89F462EDD33258BF6E23317D /* JournalViewModel.swift */; };
 		6434883DA9E59821D73039E3 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 133A4306C796D3F2EBA7C273 /* Theme.swift */; };
 		676CDC6FEE0F25323B6AC2BE /* DreamGalleryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = CF65A9BF6EE2DAC6CB27F4CB /* DreamGalleryView.swift */; };
@@ -35,6 +41,7 @@
 		98D368E7C9D6B90E628D4E8F /* SleepData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9418F9AC3C0D3E36E1F7523D /* SleepData.swift */; };
 		9F38B29611409E7D69F3D915 /* DatabaseService.swift in Sources */ = {isa = PBXBuildFile; fileRef = D860C9F89457D322CBC512C9 /* DatabaseService.swift */; };
 		9FDF816AA0460D50B2D52D8A /* RecurringDreamAnalysisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C79A2C411FBCB796AFD23472 /* RecurringDreamAnalysisView.swift */; };
+		A28CC303E154A7CC5B94EEEE /* SleepLabService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1DC07C8B61C9DBA095402E02 /* SleepLabService.swift */; };
 		A531E81AF896D82D54D7EE32 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 601D7A4CC9A6E21D69748B45 /* ContentView.swift */; };
 		A8E73DDD82EA4DE81E91811A /* WaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77DF8965E1CEA4C58740CAB /* WaveformView.swift */; };
 		B0154C4E58C03964C2D1D52F /* DreamEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857805413126F56F21151588 /* DreamEntryView.swift */; };
@@ -49,6 +56,7 @@
 		F9406D5C8A8B8003857DDDD7 /* SymbolsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3C00C477C9633BDE13D1DE42 /* SymbolsListView.swift */; };
 		FE3F8FF5D0D315455A6EC1B9 /* SleepCorrelationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = D672C8040860B2757B7CB552 /* SleepCorrelationView.swift */; };
 		FE660B4ABE768C200E0E0382 /* Dream.swift in Sources */ = {isa = PBXBuildFile; fileRef = 051938EF9A598B01CCDAE4A3 /* Dream.swift */; };
+		FF9AA68600EFD31933873410 /* SleepLabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 56C645C7CF3390F1FEEE08FF /* SleepLabView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -57,19 +65,25 @@
 		01BF9C2DFE751CA1C61A0B03 /* SymbolsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolsViewModel.swift; sourceTree = "<group>"; };
 		01FADD005DFFD2C986BE3696 /* Colors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		051938EF9A598B01CCDAE4A3 /* Dream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dream.swift; sourceTree = "<group>"; };
+		070146235BFA3AA1D75864B1 /* DreamJournalExportView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DreamJournalExportView.swift; sourceTree = "<group>"; };
 		0894CC01986B4AFEF24179DE /* DreamListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DreamListView.swift; sourceTree = "<group>"; };
 		0A08852F2CB2DA71B5C36305 /* Dreamscape.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Dreamscape.entitlements; sourceTree = "<group>"; };
 		133A4306C796D3F2EBA7C273 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		1DC07C8B61C9DBA095402E02 /* SleepLabService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepLabService.swift; sourceTree = "<group>"; };
 		2A0FF397DDD2374BC7825F56 /* DreamMapView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DreamMapView.swift; sourceTree = "<group>"; };
 		36967D4530CBE91EB04EFE4A /* SymbolDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolDetailView.swift; sourceTree = "<group>"; };
 		39FA887A2919B0B9589B9CD0 /* DreamShareCardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DreamShareCardView.swift; sourceTree = "<group>"; };
 		3BA610882D0AA3781CF3D99E /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		3C00C477C9633BDE13D1DE42 /* SymbolsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolsListView.swift; sourceTree = "<group>"; };
+		40D465E8DC0E31FF77E7CBBC /* CommunityService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityService.swift; sourceTree = "<group>"; };
+		4B953F4440C4E256DECDA145 /* WidgetViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetViews.swift; sourceTree = "<group>"; };
 		4D8DE5F15B1A27BA862C1612 /* LucidDreamingCoachView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LucidDreamingCoachView.swift; sourceTree = "<group>"; };
 		4E3923A25C69ED6355286E92 /* DreamMapCanvas.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DreamMapCanvas.swift; sourceTree = "<group>"; };
+		56C645C7CF3390F1FEEE08FF /* SleepLabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepLabView.swift; sourceTree = "<group>"; };
 		601D7A4CC9A6E21D69748B45 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		68C02A64A390D92D0FD5B9BC /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
 		70B12AE667C7475203A94F1B /* Dreamscape.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = Dreamscape.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		72A6A51F12CE1A4B61458482 /* CommunityView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommunityView.swift; sourceTree = "<group>"; };
 		75C0C7B4EEE1F305F4C8861D /* DreamMapViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DreamMapViewModel.swift; sourceTree = "<group>"; };
 		76B1085C57445CCCFF14463E /* GlowingButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GlowingButton.swift; sourceTree = "<group>"; };
 		81EE7060A7B5F1798C235E52 /* CloudSyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudSyncService.swift; sourceTree = "<group>"; };
@@ -83,6 +97,7 @@
 		9DEB261AD42CAD01548E9D92 /* DreamCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DreamCard.swift; sourceTree = "<group>"; };
 		A0BF91A76976DFFE783E2D33 /* Fonts.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fonts.swift; sourceTree = "<group>"; };
 		A7C5C4EBA87BDC0E09D7165C /* Symbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Symbol.swift; sourceTree = "<group>"; };
+		AA86F7ADF118AA09A05CCBA3 /* SleepLabModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepLabModel.swift; sourceTree = "<group>"; };
 		B4B9F342E6D4D46BA9F817EA /* DreamAnalysisService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DreamAnalysisService.swift; sourceTree = "<group>"; };
 		C04917DA39025D11399FFC71 /* StarFieldBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarFieldBackground.swift; sourceTree = "<group>"; };
 		C79A2C411FBCB796AFD23472 /* RecurringDreamAnalysisView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurringDreamAnalysisView.swift; sourceTree = "<group>"; };
@@ -92,6 +107,7 @@
 		D672C8040860B2757B7CB552 /* SleepCorrelationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepCorrelationView.swift; sourceTree = "<group>"; };
 		D860C9F89457D322CBC512C9 /* DatabaseService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DatabaseService.swift; sourceTree = "<group>"; };
 		E05296952B5E4FF5BE2E1FF7 /* SpeechService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechService.swift; sourceTree = "<group>"; };
+		E2E2538A5CF6ECB260BA2D4E /* PDFExportService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PDFExportService.swift; sourceTree = "<group>"; };
 		E6DD4620DF465F313D371A79 /* GalleryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GalleryViewModel.swift; sourceTree = "<group>"; };
 		E77DF8965E1CEA4C58740CAB /* WaveformView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WaveformView.swift; sourceTree = "<group>"; };
 		F773E5396115881412CBA7D0 /* DreamArtGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DreamArtGenerator.swift; sourceTree = "<group>"; };
@@ -114,9 +130,12 @@
 			isa = PBXGroup;
 			children = (
 				81EE7060A7B5F1798C235E52 /* CloudSyncService.swift */,
+				40D465E8DC0E31FF77E7CBBC /* CommunityService.swift */,
 				D860C9F89457D322CBC512C9 /* DatabaseService.swift */,
 				B4B9F342E6D4D46BA9F817EA /* DreamAnalysisService.swift */,
+				E2E2538A5CF6ECB260BA2D4E /* PDFExportService.swift */,
 				CF071EC47E7EE646E62C7F01 /* SleepDataService.swift */,
+				1DC07C8B61C9DBA095402E02 /* SleepLabService.swift */,
 				E05296952B5E4FF5BE2E1FF7 /* SpeechService.swift */,
 			);
 			path = Services;
@@ -153,6 +172,7 @@
 				051938EF9A598B01CCDAE4A3 /* Dream.swift */,
 				9B6E1DC46EC330401618A963 /* DreamArt.swift */,
 				9418F9AC3C0D3E36E1F7523D /* SleepData.swift */,
+				AA86F7ADF118AA09A05CCBA3 /* SleepLabModel.swift */,
 				A7C5C4EBA87BDC0E09D7165C /* Symbol.swift */,
 				133A4306C796D3F2EBA7C273 /* Theme.swift */,
 			);
@@ -162,10 +182,12 @@
 		5E0971C256ADBE9CCD61ECD9 /* Screens */ = {
 			isa = PBXGroup;
 			children = (
+				72A6A51F12CE1A4B61458482 /* CommunityView.swift */,
 				601D7A4CC9A6E21D69748B45 /* ContentView.swift */,
 				8367DF3C0EF548E912A6D5DB /* DreamDetailView.swift */,
 				857805413126F56F21151588 /* DreamEntryView.swift */,
 				CF65A9BF6EE2DAC6CB27F4CB /* DreamGalleryView.swift */,
+				070146235BFA3AA1D75864B1 /* DreamJournalExportView.swift */,
 				0894CC01986B4AFEF24179DE /* DreamListView.swift */,
 				2A0FF397DDD2374BC7825F56 /* DreamMapView.swift */,
 				39FA887A2919B0B9589B9CD0 /* DreamShareCardView.swift */,
@@ -173,8 +195,10 @@
 				C79A2C411FBCB796AFD23472 /* RecurringDreamAnalysisView.swift */,
 				8FCEEFEC40770EE3CE170DE4 /* SettingsView.swift */,
 				D672C8040860B2757B7CB552 /* SleepCorrelationView.swift */,
+				56C645C7CF3390F1FEEE08FF /* SleepLabView.swift */,
 				36967D4530CBE91EB04EFE4A /* SymbolDetailView.swift */,
 				3C00C477C9633BDE13D1DE42 /* SymbolsListView.swift */,
+				4B953F4440C4E256DECDA145 /* WidgetViews.swift */,
 			);
 			path = Screens;
 			sourceTree = "<group>";
@@ -325,6 +349,8 @@
 				32C3D5A0F7E6C2FA05ED21A5 /* AuroraDreamCard.swift in Sources */,
 				F0EE5F2A9F8F9BE8E9431148 /* CloudSyncService.swift in Sources */,
 				F528E4A728D0E323570CAD04 /* Colors.swift in Sources */,
+				18C79134A3466D84CBCD7C4F /* CommunityService.swift in Sources */,
+				38476B27E6A01078CC64B55F /* CommunityView.swift in Sources */,
 				A531E81AF896D82D54D7EE32 /* ContentView.swift in Sources */,
 				9F38B29611409E7D69F3D915 /* DatabaseService.swift in Sources */,
 				FE660B4ABE768C200E0E0382 /* Dream.swift in Sources */,
@@ -335,6 +361,7 @@
 				E47AC20AEB12808F2C137395 /* DreamDetailView.swift in Sources */,
 				B0154C4E58C03964C2D1D52F /* DreamEntryView.swift in Sources */,
 				676CDC6FEE0F25323B6AC2BE /* DreamGalleryView.swift in Sources */,
+				5CAF77131E109B260B23C4C1 /* DreamJournalExportView.swift in Sources */,
 				4E0DFEC499B3CE297416B586 /* DreamListView.swift in Sources */,
 				50C7EC4C7593DE5DDEB24016 /* DreamMapCanvas.swift in Sources */,
 				5C2C635F06C9D48579C94902 /* DreamMapView.swift in Sources */,
@@ -347,12 +374,16 @@
 				95F9242826F20E4DD4280423 /* GlowingButton.swift in Sources */,
 				5E9BF29AAFAA170D2033CFB3 /* JournalViewModel.swift in Sources */,
 				5472368570C913280E144F8D /* LucidDreamingCoachView.swift in Sources */,
+				1AA85006CB306F5F78FF6B18 /* PDFExportService.swift in Sources */,
 				9FDF816AA0460D50B2D52D8A /* RecurringDreamAnalysisView.swift in Sources */,
 				6DF80FFA80E463B63075B691 /* SettingsView.swift in Sources */,
 				D5658EEA88B7E0F5668E1688 /* SettingsViewModel.swift in Sources */,
 				FE3F8FF5D0D315455A6EC1B9 /* SleepCorrelationView.swift in Sources */,
 				98D368E7C9D6B90E628D4E8F /* SleepData.swift in Sources */,
 				DF1C1F24DF2891FF56F0A5C0 /* SleepDataService.swift in Sources */,
+				45D00B99CFA36413A633437E /* SleepLabModel.swift in Sources */,
+				A28CC303E154A7CC5B94EEEE /* SleepLabService.swift in Sources */,
+				FF9AA68600EFD31933873410 /* SleepLabView.swift in Sources */,
 				6D449FACB972BE175D2E3AD9 /* SpeechService.swift in Sources */,
 				418D96F90FCFA133C93B14C8 /* StarFieldBackground.swift in Sources */,
 				3D3D71FB4AC3C30393C63552 /* Symbol.swift in Sources */,
@@ -362,6 +393,7 @@
 				4F153D9B610BF5330D54E4D4 /* SymbolsViewModel.swift in Sources */,
 				6434883DA9E59821D73039E3 /* Theme.swift in Sources */,
 				A8E73DDD82EA4DE81E91811A /* WaveformView.swift in Sources */,
+				04B74ADD8527680E72330A4D /* WidgetViews.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

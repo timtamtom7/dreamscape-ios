@@ -10,6 +10,8 @@ struct ContentView: View {
     @State private var selectedTab = 0
     @State private var showingRecurringAnalysis = false
     @State private var showingLucidCoach = false
+    @State private var showingSleepLab = false
+    @State private var showingCommunity = false
 
     var body: some View {
         ZStack {
@@ -19,7 +21,7 @@ struct ContentView: View {
             // Main content
             TabView(selection: $selectedTab) {
                 // Journal Tab
-                JournalTabHost(showingRecurringAnalysis: $showingRecurringAnalysis)
+                JournalTabHost(showingRecurringAnalysis: $showingRecurringAnalysis, showingSleepLab: $showingSleepLab, showingCommunity: $showingCommunity)
                     .tabItem {
                         Label("Journal", systemImage: "house.fill")
                     }
@@ -60,6 +62,8 @@ struct ContentView: View {
 struct JournalTabHost: View {
     @EnvironmentObject var viewModel: JournalViewModel
     @Binding var showingRecurringAnalysis: Bool
+    @Binding var showingSleepLab: Bool
+    @Binding var showingCommunity: Bool
     @State private var selectedSection: JournalSection = .dreams
     @State private var showingGallery = false
     @State private var showingSleepCorrelation = false
@@ -75,10 +79,14 @@ struct JournalTabHost: View {
                 AppColors.backgroundPrimary.ignoresSafeArea()
 
                 VStack(spacing: 0) {
+                    // R4: Widget Dashboard
+                    WidgetDashboardView(showingEntrySheet: $viewModel.showingEntrySheet)
+                        .padding(.top, 8)
+
                     // Section picker
                     sectionPicker
                         .padding(.horizontal)
-                        .padding(.top, 8)
+                        .padding(.top, 12)
 
                     // Content
                     if selectedSection == .dreams {
@@ -94,19 +102,41 @@ struct JournalTabHost: View {
             .toolbarColorScheme(.dark, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
-                    Button(action: { showingRecurringAnalysis = true }) {
-                        Image(systemName: "repeat.circle")
-                            .foregroundColor(AppColors.starGold)
+                    HStack(spacing: 16) {
+                        Button(action: { showingRecurringAnalysis = true }) {
+                            Image(systemName: "repeat.circle")
+                                .foregroundColor(AppColors.starGold)
+                        }
+
+                        // R4: Sleep Lab
+                        Button(action: { showingSleepLab = true }) {
+                            Image(systemName: "bed.double.fill")
+                                .foregroundColor(AppColors.nebulaPink)
+                        }
                     }
                 }
 
                 ToolbarItem(placement: .navigationBarTrailing) {
-                    NavigationLink(destination: LucidDreamingCoachView()) {
-                        Image(systemName: "eye.fill")
-                            .foregroundColor(AppColors.nebulaPink)
+                    HStack(spacing: 16) {
+                        // R4: Community
+                        Button(action: { showingCommunity = true }) {
+                            Image(systemName: "person.3.fill")
+                                .foregroundColor(AppColors.auroraCyan)
+                        }
+
+                        NavigationLink(destination: LucidDreamingCoachView()) {
+                            Image(systemName: "eye.fill")
+                                .foregroundColor(AppColors.nebulaPink)
+                        }
                     }
                 }
             }
+        }
+        .sheet(isPresented: $showingSleepLab) {
+            SleepLabView()
+        }
+        .sheet(isPresented: $showingCommunity) {
+            CommunityView()
         }
     }
 

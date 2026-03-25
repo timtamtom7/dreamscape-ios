@@ -1,11 +1,13 @@
 import Foundation
 import SwiftUI
 
-enum SymbolCategory: String, Codable, CaseIterable {
+enum SymbolCategory: String, Codable, CaseIterable, Identifiable {
     case person
     case place
     case object
     case emotion
+
+    var id: Self { self }
 
     var displayName: String {
         switch self {
