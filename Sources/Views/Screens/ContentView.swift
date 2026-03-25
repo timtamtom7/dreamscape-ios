@@ -12,6 +12,8 @@ struct ContentView: View {
     @State private var showingLucidCoach = false
     @State private var showingSleepLab = false
     @State private var showingCommunity = false
+    @State private var showingIncubation = false
+    @State private var showingDictionary = false
 
     var body: some View {
         ZStack {
@@ -39,11 +41,23 @@ struct ContentView: View {
                     }
                     .tag(2)
 
+                DreamDictionaryView()
+                    .tabItem {
+                        Label("Dictionary", systemImage: "book.fill")
+                    }
+                    .tag(3)
+
+                DreamIncubationView()
+                    .tabItem {
+                        Label("Incubate", systemImage: "moon.stars")
+                    }
+                    .tag(4)
+
                 SettingsView()
                     .tabItem {
                         Label("Settings", systemImage: "gear")
                     }
-                    .tag(3)
+                    .tag(5)
             }
             .tint(AppColors.auroraCyan)
         }
