@@ -61,5 +61,7 @@
     <array>
         <string>com.dreamscape.app.refresh</string>
     </array>
+    <key>NSSupportsLiveActivities</key>
+    <true/>
 </dict>
 </plist>

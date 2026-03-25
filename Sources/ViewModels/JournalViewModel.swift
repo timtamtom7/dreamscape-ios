@@ -70,6 +70,9 @@ final class JournalViewModel: ObservableObject {
 
             try databaseService.saveDream(newDream)
             dreams.insert(newDream, at: 0)
+
+            // R5: Update Live Activity with new streak
+            await LiveActivityService.shared.calculateAndUpdateStreak()
         } catch {
             errorMessage = error.localizedDescription
         }
