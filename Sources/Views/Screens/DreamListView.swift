@@ -9,7 +9,11 @@ struct DreamListView: View {
                 // Background
                 AppColors.backgroundPrimary.ignoresSafeArea()
 
-                if viewModel.dreams.isEmpty {
+                if viewModel.isLoading {
+                    loadingState
+                } else if let error = viewModel.errorMessage {
+                    errorState(message: error)
+                } else if viewModel.dreams.isEmpty {
                     emptyState
                 } else {
                     dreamList
@@ -57,6 +61,53 @@ struct DreamListView: View {
             }
         }
         .padding()
+    }
+
+    private var loadingState: some View {
+        VStack(spacing: 20) {
+            ProgressView()
+                .scaleEffect(1.2)
+                .tint(AppColors.auroraCyan)
+
+            Text("Loading your dreams...")
+                .font(AppFonts.body)
+                .foregroundColor(AppColors.textSecondary)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
+    }
+
+    private func errorState(message: String) -> some View {
+        VStack(spacing: 20) {
+            Image(systemName: "exclamationmark.triangle.fill")
+                .font(.system(size: 48))
+                .foregroundColor(AppColors.warning)
+
+            VStack(spacing: 8) {
+                Text("Something went wrong")
+                    .font(AppFonts.headline)
+                    .foregroundColor(AppColors.textPrimary)
+
+                Text(message)
+                    .font(AppFonts.body)
+                    .foregroundColor(AppColors.textSecondary)
+                    .multilineTextAlignment(.center)
+            }
+
+            Button(action: { viewModel.loadDreams() }) {
+                HStack(spacing: 6) {
+                    Image(systemName: "arrow.clockwise")
+                    Text("Try Again")
+                }
+                .font(AppFonts.callout)
+                .foregroundColor(AppColors.backgroundPrimary)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 10)
+                .background(AppColors.auroraCyan)
+                .cornerRadius(12)
+            }
+        }
+        .padding()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
     private var dreamList: some View {

@@ -18,6 +18,8 @@ struct DreamEntryView: View {
     @State private var attachedPhotoItem: PhotosPickerItem?
     @State private var attachedImageData: Data?
     @State private var showMoodPicker = false
+    @State private var photoLoadError: String?
+    @State private var showPhotoErrorAlert = false
 
     enum EntryMode: String, CaseIterable {
         case voice = "Voice"
@@ -101,10 +103,23 @@ struct DreamEntryView: View {
             } message: {
                 Text("Your dream entry will be lost.")
             }
+            .alert("Photo Error", isPresented: $showPhotoErrorAlert) {
+                Button("OK", role: .cancel) {
+                    photoLoadError = nil
+                    attachedImageData = nil
+                    attachedPhotoItem = nil
+                }
+            } message: {
+                Text(photoLoadError ?? "Failed to load photo. Please try again.")
+            }
             .onChange(of: attachedPhotoItem) { _, newItem in
                 Task { @MainActor in
+                    photoLoadError = nil
                     if let data = try? await newItem?.loadTransferable(type: Data.self) {
                         attachedImageData = data
+                    } else if newItem != nil {
+                        photoLoadError = "Failed to load photo. The file may be corrupted or in an unsupported format."
+                        showPhotoErrorAlert = true
                     }
                 }
             }
@@ -309,6 +324,22 @@ struct DreamEntryView: View {
                     Button(action: { attachedImageData = nil; attachedPhotoItem = nil }) {
                         Image(systemName: "xmark.circle.fill")
                             .foregroundColor(AppColors.error)
+                    }
+                }
+
+                if photoLoadError != nil {
+                    Button(action: {
+                        photoLoadError = nil
+                        attachedImageData = nil
+                        attachedPhotoItem = nil
+                    }) {
+                        HStack(spacing: 4) {
+                            Image(systemName: "arrow.clockwise")
+                                .font(.caption2)
+                            Text("Retry")
+                                .font(AppFonts.caption)
+                        }
+                        .foregroundColor(AppColors.warning)
                     }
                 }
             }

@@ -9,7 +9,9 @@ struct SymbolsListView: View {
             ZStack {
                 AppColors.backgroundPrimary.ignoresSafeArea()
 
-                if viewModel.symbols.isEmpty {
+                if viewModel.isLoading {
+                    symbolsLoadingState
+                } else if viewModel.symbols.isEmpty {
                     emptyState
                 } else {
                     VStack(spacing: 0) {
@@ -49,6 +51,19 @@ struct SymbolsListView: View {
             }
         }
         .padding()
+    }
+
+    private var symbolsLoadingState: some View {
+        VStack(spacing: 20) {
+            ProgressView()
+                .scaleEffect(1.2)
+                .tint(AppColors.starGold)
+
+            Text("Analyzing your symbols...")
+                .font(AppFonts.body)
+                .foregroundColor(AppColors.textSecondary)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
     private var searchAndSortBar: some View {

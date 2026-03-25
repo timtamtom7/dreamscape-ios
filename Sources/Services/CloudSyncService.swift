@@ -33,43 +33,63 @@ final class CloudSyncService: ObservableObject {
             throw CloudSyncError.notAvailable
         }
 
+        guard let database = container.privateCloudDatabase as CKDatabase? else {
+            throw CloudSyncError.databaseUnavailable
+        }
+
         await MainActor.run { isSyncing = true }
 
-        do {
-            let records = dreams.map { dreamToRecord($0) }
-            let operation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: nil)
-            operation.savePolicy = .changedKeys
-
-            try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
-                operation.modifyRecordsResultBlock = { result in
-                    switch result {
-                    case .success:
-                        DispatchQueue.main.async {
-                            self.isSyncing = false
-                            self.lastSyncDate = Date()
-                        }
-                        continuation.resume()
-                    case .failure(let error):
-                        DispatchQueue.main.async {
-                            self.isSyncing = false
-                            self.syncError = error.localizedDescription
-                        }
-                        continuation.resume(throwing: error)
-                    }
-                }
-
-                if let database = container.privateCloudDatabase as CKDatabase? {
-                    database.add(operation)
-                } else {
-                    continuation.resume(throwing: CloudSyncError.databaseUnavailable)
-                }
-            }
-        } catch {
-            await MainActor.run {
+        defer {
+            Task { @MainActor in
                 isSyncing = false
-                syncError = error.localizedDescription
             }
-            throw error
+        }
+
+        // Conflict resolution: fetch server state first, then merge
+        let serverDreams = (try? await fetchDreamsFromCloud()) ?? []
+        let serverDreamMap = Dictionary(uniqueKeysWithValues: serverDreams.map { ($0.id, $0) })
+        let localDreamMap = Dictionary(uniqueKeysWithValues: dreams.map { ($0.id, $0) })
+
+        // Build merged set — newer updatedAt wins
+        var mergedDreams: [Dream] = []
+        var allIds = Set(serverDreamMap.keys)
+        allIds.formUnion(localDreamMap.keys)
+
+        for id in allIds {
+            let serverDream = serverDreamMap[id]
+            let localDream = localDreamMap[id]
+
+            if let sd = serverDream, let ld = localDream {
+                // Both exist — pick the newer one
+                mergedDreams.append(sd.updatedAt > ld.updatedAt ? sd : ld)
+            } else if let sd = serverDream {
+                mergedDreams.append(sd)
+            } else if let ld = localDream {
+                mergedDreams.append(ld)
+            }
+        }
+
+        // Save merged dreams back to cloud
+        let records = mergedDreams.map { dreamToRecord($0) }
+        let operation = CKModifyRecordsOperation(recordsToSave: records, recordIDsToDelete: nil)
+        operation.savePolicy = .changedKeys
+
+        try await withCheckedThrowingContinuation { (continuation: CheckedContinuation<Void, Error>) in
+            operation.modifyRecordsResultBlock = { result in
+                switch result {
+                case .success:
+                    DispatchQueue.main.async {
+                        self.lastSyncDate = Date()
+                    }
+                    continuation.resume()
+                case .failure(let error):
+                    DispatchQueue.main.async {
+                        self.syncError = error.localizedDescription
+                    }
+                    continuation.resume(throwing: error)
+                }
+            }
+            database.add(operation)
         }
     }
 

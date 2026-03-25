@@ -105,6 +105,32 @@ struct DreamShareCardView: View {
                 .foregroundColor(AppColors.textPrimary)
                 .lineSpacing(5)
 
+            // Photo attachment (blurred in privacy mode)
+            if let photoURL = dream.attachedPhotoURL,
+               let data = try? Data(contentsOf: photoURL),
+               let uiImage = UIImage(data: data) {
+                ZStack {
+                    Image(uiImage: uiImage)
+                        .resizable()
+                        .scaledToFill()
+                        .frame(height: 150)
+                        .clipped()
+                        .cornerRadius(12)
+
+                    if isBlurringNames {
+                        Rectangle()
+                            .fill(.ultraThinMaterial)
+                            .frame(height: 150)
+                            .cornerRadius(12)
+                            .overlay(
+                                Image(systemName: "eye.slash.fill")
+                                    .font(.title2)
+                                    .foregroundColor(.white.opacity(0.8))
+                            )
+                    }
+                }
+            }
+
             // Symbol chips
             if !dream.symbols.isEmpty {
                 FlowLayout(spacing: 6) {

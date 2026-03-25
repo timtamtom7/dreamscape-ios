@@ -13,7 +13,9 @@ struct DreamMapView: View {
             ZStack {
                 AppColors.backgroundPrimary.ignoresSafeArea()
 
-                if viewModel.nodes.isEmpty {
+                if viewModel.isLoading {
+                    loadingState
+                } else if viewModel.nodes.isEmpty {
                     emptyState
                 } else {
                     VStack(spacing: 0) {
@@ -140,6 +142,19 @@ struct DreamMapView: View {
             }
         }
         .padding()
+    }
+
+    private var loadingState: some View {
+        VStack(spacing: 20) {
+            ProgressView()
+                .scaleEffect(1.2)
+                .tint(AppColors.auroraCyan)
+
+            Text("Building your dream map...")
+                .font(AppFonts.body)
+                .foregroundColor(AppColors.textSecondary)
+        }
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
     private var zoomIndicator: some View {

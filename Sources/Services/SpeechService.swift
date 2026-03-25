@@ -2,6 +2,26 @@ import Foundation
 import AVFoundation
 import Speech
 
+enum SpeechError: LocalizedError {
+    case notAuthorized
+    case recognizerUnavailable
+    case recordingFailed
+    case microphonePermissionDenied
+
+    var errorDescription: String? {
+        switch self {
+        case .notAuthorized:
+            return "Speech recognition not authorized. Please enable in Settings."
+        case .recognizerUnavailable:
+            return "Speech recognizer is not available."
+        case .recordingFailed:
+            return "Failed to start recording."
+        case .microphonePermissionDenied:
+            return "Microphone access denied. Please enable in Settings > Privacy > Microphone."
+        }
+    }
+}
+
 @MainActor
 final class SpeechService: NSObject, ObservableObject {
     @Published var isRecording = false
@@ -9,6 +29,7 @@ final class SpeechService: NSObject, ObservableObject {
     @Published var audioLevels: [CGFloat] = Array(repeating: 0, count: 30)
     @Published var transcribedText = ""
     @Published var errorMessage: String?
+    @Published var permissionDeniedError: String?
 
     private var audioRecorder: AVAudioRecorder?
     private var levelTimer: Timer?
@@ -18,15 +39,57 @@ final class SpeechService: NSObject, ObservableObject {
         super.init()
     }
 
+    /// Request both microphone and speech recognition permissions.
+    /// Returns true only if both are granted.
     func requestAuthorization() async -> Bool {
-        await withCheckedContinuation { continuation in
+        // Request microphone permission first
+        let micGranted = await withCheckedContinuation { continuation in
+            AVAudioApplication.requestRecordPermission { granted in
+                continuation.resume(returning: granted)
+            }
+        }
+
+        if !micGranted {
+            permissionDeniedError = SpeechError.microphonePermissionDenied.localizedDescription
+            return false
+        }
+
+        // Request speech recognition permission
+        let speechGranted = await withCheckedContinuation { continuation in
             SFSpeechRecognizer.requestAuthorization { status in
                 continuation.resume(returning: status == .authorized)
             }
         }
+
+        if !speechGranted {
+            errorMessage = SpeechError.notAuthorized.localizedDescription
+            return false
+        }
+
+        return true
+    }
+
+    /// Check if both permissions are already granted without prompting
+    func checkPermissions() async -> Bool {
+        let micStatus = AVAudioApplication.shared.recordPermission
+        let speechStatus = SFSpeechRecognizer.authorizationStatus()
+        return micStatus == .granted && speechStatus == .authorized
     }
 
     func startRecording() async throws {
+        // Check microphone permission — if denied, request it and throw if still denied
+        if AVAudioApplication.shared.recordPermission != .granted {
+            let granted = await withCheckedContinuation { continuation in
+                AVAudioApplication.requestRecordPermission { granted in
+                    continuation.resume(returning: granted)
+                }
+            }
+            if !granted {
+                throw SpeechError.microphonePermissionDenied
+            }
+        }
+
+        // Check speech recognition permission
         guard SFSpeechRecognizer.authorizationStatus() == .authorized else {
             throw SpeechError.notAuthorized
         }
@@ -140,19 +203,4 @@ final class SpeechService: NSObject, ObservableObject {
     }
 }
 
-enum SpeechError: LocalizedError {
-    case notAuthorized
-    case recognizerUnavailable
-    case recordingFailed
 
-    var errorDescription: String? {
-        switch self {
-        case .notAuthorized:
-            return "Speech recognition not authorized. Please enable in Settings."
-        case .recognizerUnavailable:
-            return "Speech recognizer is not available."
-        case .recordingFailed:
-            return "Failed to start recording."
-        }
-    }
-}

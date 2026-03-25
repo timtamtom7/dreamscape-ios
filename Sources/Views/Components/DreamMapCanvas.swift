@@ -9,6 +9,7 @@ struct DreamMapCanvas: View {
     @State private var animatedPositions: [UUID: CGPoint] = [:]
     @State private var nodeVelocities: [UUID: CGPoint] = [:]
     @State private var timer: Timer?
+    @State private var isNodeDragging = false  // Pause physics during node drag to prevent jitter
 
     var body: some View {
         GeometryReader { geometry in
@@ -26,7 +27,7 @@ struct DreamMapCanvas: View {
                     }
                 }
 
-                // Draw nodes with spring animation
+                // Draw nodes
                 ForEach(nodes) { node in
                     NodeView(
                         node: node,
@@ -37,10 +38,11 @@ struct DreamMapCanvas: View {
                     .gesture(
                         DragGesture()
                             .onChanged { value in
+                                isNodeDragging = true
                                 animatedPositions[node.id] = value.location
                             }
                             .onEnded { _ in
-                                // Settle back with spring
+                                isNodeDragging = false
                                 withAnimation(.spring(response: 0.6, dampingFraction: 0.7)) {
                                     settleNode(node.id)
                                 }
@@ -74,8 +76,7 @@ struct DreamMapCanvas: View {
     }
 
     private func settleNode(_ id: UUID) {
-        // Spring physics: find equilibrium position
-        guard let current = animatedPositions[id] else { return }
+        guard animatedPositions[id] != nil else { return }
         let center = CGPoint(x: 200, y: 300)
         let radius: CGFloat = 150
         let index = nodes.firstIndex(where: { $0.id == id }) ?? 0
@@ -89,7 +90,9 @@ struct DreamMapCanvas: View {
 
     private func startSimulation() {
         timer?.invalidate()
-        timer = Timer.scheduledTimer(withTimeInterval: 1 / 60.0, repeats: true) { _ in
+        // Use Timer for smooth 60fps physics — capture self strongly since timer is invalidated on disappear
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0 / 60.0, repeats: true) { [self] _ in
+            guard !isNodeDragging else { return }
             updatePhysics()
         }
     }
