@@ -53,11 +53,23 @@ struct ContentView: View {
                     }
                     .tag(4)
 
+                LegacyArchiveView()
+                    .tabItem {
+                        Label("Legacy", systemImage: "archivebox.fill")
+                    }
+                    .tag(5)
+
+                DreamAnalyticsView()
+                    .tabItem {
+                        Label("Analytics", systemImage: "chart.bar.fill")
+                    }
+                    .tag(6)
+
                 SettingsView()
                     .tabItem {
                         Label("Settings", systemImage: "gear")
                     }
-                    .tag(5)
+                    .tag(7)
             }
             .tint(AppColors.auroraCyan)
         }
