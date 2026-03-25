@@ -29,19 +29,18 @@ struct StarFieldBackground: View {
                     endPoint: .bottom
                 )
 
-                // Stars
-                ForEach(stars) { star in
-                    Circle()
-                        .fill(Color.white)
-                        .frame(width: star.size, height: star.size)
-                        .position(x: star.x * geometry.size.width, y: star.y * geometry.size.height)
-                        .opacity(star.opacity)
-                        .animation(
-                            Animation.easeInOut(duration: star.animationDuration)
-                                .repeatForever(autoreverses: true)
-                                .delay(star.animationDelay),
-                            value: stars
-                        )
+                // Stars with TimelineView for proper animation
+                TimelineView(.animation(minimumInterval: 0.5)) { timeline in
+                    ForEach(stars) { star in
+                        let time = timeline.date.timeIntervalSinceReferenceDate
+                        let animatedOpacity = 0.3 + 0.4 * sin(time * (1 + star.animationDelay) + star.animationDuration)
+
+                        Circle()
+                            .fill(Color.white)
+                            .frame(width: star.size, height: star.size)
+                            .position(x: star.x * geometry.size.width, y: star.y * geometry.size.height)
+                            .opacity(animatedOpacity)
+                    }
                 }
 
                 // Subtle nebula overlay

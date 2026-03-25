@@ -1,6 +1,7 @@
 import SwiftUI
 import PhotosUI
 
+@MainActor
 struct DreamEntryView: View {
     @Environment(\.dismiss) private var dismiss
     @EnvironmentObject var viewModel: JournalViewModel
@@ -297,6 +298,21 @@ struct DreamEntryView: View {
 
     // MARK: - R2: Photo Attachment
 
+    @ViewBuilder
+    private var photoPickerButtonContentView: some View {
+        HStack(spacing: 8) {
+            Image(systemName: attachedImageData == nil ? "camera.fill" : "camera.fill.badge.checkmark")
+                .foregroundColor(attachedImageData == nil ? AppColors.auroraCyan : AppColors.success)
+            Text(attachedImageData == nil ? "Add Photo" : "Photo Added")
+                .font(AppFonts.callout)
+                .foregroundColor(AppColors.textPrimary)
+        }
+        .padding(.horizontal, 16)
+        .padding(.vertical, 10)
+        .background(AppColors.surface.opacity(0.8))
+        .cornerRadius(12)
+    }
+
     private var photoAttachmentSection: some View {
         VStack(alignment: .leading, spacing: 12) {
             Text("Attach Photo (optional)")
@@ -307,17 +323,7 @@ struct DreamEntryView: View {
 
             HStack(spacing: 12) {
                 PhotosPicker(selection: $attachedPhotoItem, matching: .images) {
-                    HStack(spacing: 8) {
-                        Image(systemName: attachedImageData == nil ? "camera.fill" : "camera.fill.badge.checkmark")
-                            .foregroundColor(attachedImageData == nil ? AppColors.auroraCyan : AppColors.success)
-                        Text(attachedImageData == nil ? "Add Photo" : "Photo Added")
-                            .font(AppFonts.callout)
-                            .foregroundColor(AppColors.textPrimary)
-                    }
-                    .padding(.horizontal, 16)
-                    .padding(.vertical, 10)
-                    .background(AppColors.surface.opacity(0.8))
-                    .cornerRadius(12)
+                    photoPickerButtonContentView
                 }
 
                 if attachedImageData != nil {

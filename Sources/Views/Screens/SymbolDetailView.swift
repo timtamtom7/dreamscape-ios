@@ -63,7 +63,7 @@ struct SymbolDetailView: View {
                             SymbolDiaryTimeline(
                                 frequency: symbol.frequency,
                                 lastSeen: symbol.lastSeen,
-                                diaryEntries: symbolsViewModel.symbolDiaryEntries(for: symbol.id)
+                                diaryEntries: []
                             )
                         }
 

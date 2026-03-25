@@ -16,17 +16,19 @@ final class GalleryViewModel: ObservableObject {
     }
 
     var correlationScore: String {
-        let avgQuality = galleryItems.compactMap { item -> Int? in
+        let scores = galleryItems.compactMap { item -> Int? in
             guard let sleep = try? sleepDataService.fetchSleepRecord(for: item.dream.createdAt) else { return nil }
             return sleep.quality.score
-        }.reduce(0, +)
+        }
+        
+        guard !scores.isEmpty else { return "No Data" }
+        
+        let total = scores.reduce(0, +)
+        let avgScore = Double(total) / Double(scores.count)
 
-        let count = avgQuality > 0 ? Double(galleryItems.count) : 1
-        let score = Double(avgQuality) / count
-
-        if score >= 4.5 { return "Excellent" }
-        else if score >= 3.5 { return "Good" }
-        else if score >= 2.5 { return "Fair" }
+        if avgScore >= 4.5 { return "Excellent" }
+        else if avgScore >= 3.5 { return "Good" }
+        else if avgScore >= 2.5 { return "Fair" }
         else { return "Poor" }
     }
 

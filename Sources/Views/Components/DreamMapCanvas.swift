@@ -90,11 +90,18 @@ struct DreamMapCanvas: View {
 
     private func startSimulation() {
         timer?.invalidate()
-        // Use Timer for smooth 60fps physics — capture self strongly since timer is invalidated on disappear
-        timer = Timer.scheduledTimer(withTimeInterval: 1.0 / 60.0, repeats: true) { [self] _ in
-            guard !isNodeDragging else { return }
-            updatePhysics()
+        // Use Timer for smooth 60fps physics
+        timer = Timer.scheduledTimer(withTimeInterval: 1.0 / 60.0, repeats: true) { _ in
+            Task { @MainActor in
+                self.updatePhysicsIfAllowed()
+            }
         }
+    }
+    
+    @MainActor
+    private func updatePhysicsIfAllowed() {
+        guard !isNodeDragging else { return }
+        updatePhysics()
     }
 
     private func updatePhysics() {

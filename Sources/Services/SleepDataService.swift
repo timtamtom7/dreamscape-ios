@@ -166,9 +166,11 @@ final class SleepDataService {
 
         // Correlate mood with sleep quality
         let moodSleepPairs = dreams.compactMap { dream -> (MoodTag, SleepData)? in
-            guard let linkedId = sleepRecords.first(where: { $0.linkedDreamId == dream.id })?.linkedDreamId,
-                  let sleep = sleepRecords.first(where: { $0.id.uuidString == linkedId.uuidString }) ?? sleepRecords.first(where: { Calendar.current.isDate($0.date, inSameDayAs: dream.createdAt) }),
-                  let mood = dream.mood else { return nil }
+            guard let mood = dream.mood else { return nil }
+            // Try to find a sleep record linked to this dream, or find one on the same day
+            let linkedSleep = sleepRecords.first(where: { $0.linkedDreamId == dream.id })
+            let sameDaySleep = sleepRecords.first(where: { Calendar.current.isDate($0.date, inSameDayAs: dream.createdAt) })
+            guard let sleep = linkedSleep ?? sameDaySleep else { return nil }
             return (mood, sleep)
         }
 

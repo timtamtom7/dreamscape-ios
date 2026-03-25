@@ -35,7 +35,7 @@ struct DreamDetailView: View {
                     }
 
                     // R2: Recurring Dream Indicator
-                    if let recurringId = dream.recurringVariantId {
+                    if dream.recurringVariantId != nil {
                         recurringBadge(count: dream.recurringCount(in: journalViewModel.dreams))
                     }
 
