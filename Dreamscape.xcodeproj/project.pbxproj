@@ -50,6 +50,7 @@
 		A8E73DDD82EA4DE81E91811A /* WaveformView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E77DF8965E1CEA4C58740CAB /* WaveformView.swift */; };
 		ADA182B39F726BD4BCE0C2C9 /* DreamStreakAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 446D147DBDF7C1613BF005D0 /* DreamStreakAttributes.swift */; };
 		B0154C4E58C03964C2D1D52F /* DreamEntryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 857805413126F56F21151588 /* DreamEntryView.swift */; };
+		B1C908B12FCF40443BCE65CA /* CosmicDreamIllustration.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6C438F099392F9AF24FC05A /* CosmicDreamIllustration.swift */; };
 		BEFA1F1ED1F23CE0D4D9A1CB /* DreamAnalysisService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B4B9F342E6D4D46BA9F817EA /* DreamAnalysisService.swift */; };
 		CDB1A5D0738966188CE1ACA8 /* SymbolChip.swift in Sources */ = {isa = PBXBuildFile; fileRef = F8123C87B51562254B54E06C /* SymbolChip.swift */; };
 		D5658EEA88B7E0F5668E1688 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 68C02A64A390D92D0FD5B9BC /* SettingsViewModel.swift */; };
@@ -109,6 +110,7 @@
 		A7C5C4EBA87BDC0E09D7165C /* Symbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Symbol.swift; sourceTree = "<group>"; };
 		AA86F7ADF118AA09A05CCBA3 /* SleepLabModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SleepLabModel.swift; sourceTree = "<group>"; };
 		B4B9F342E6D4D46BA9F817EA /* DreamAnalysisService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DreamAnalysisService.swift; sourceTree = "<group>"; };
+		B6C438F099392F9AF24FC05A /* CosmicDreamIllustration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CosmicDreamIllustration.swift; sourceTree = "<group>"; };
 		C04917DA39025D11399FFC71 /* StarFieldBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarFieldBackground.swift; sourceTree = "<group>"; };
 		C79A2C411FBCB796AFD23472 /* RecurringDreamAnalysisView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RecurringDreamAnalysisView.swift; sourceTree = "<group>"; };
 		C7E3D8E8863F3F69EDFDC81D /* DreamscapeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DreamscapeApp.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 			isa = PBXGroup;
 			children = (
 				9CCBA4BB028D27C481DDFDC2 /* AuroraDreamCard.swift */,
+				B6C438F099392F9AF24FC05A /* CosmicDreamIllustration.swift */,
 				F773E5396115881412CBA7D0 /* DreamArtGenerator.swift */,
 				9DEB261AD42CAD01548E9D92 /* DreamCard.swift */,
 				4E3923A25C69ED6355286E92 /* DreamMapCanvas.swift */,
@@ -430,6 +433,7 @@
 				18C79134A3466D84CBCD7C4F /* CommunityService.swift in Sources */,
 				38476B27E6A01078CC64B55F /* CommunityView.swift in Sources */,
 				A531E81AF896D82D54D7EE32 /* ContentView.swift in Sources */,
+				B1C908B12FCF40443BCE65CA /* CosmicDreamIllustration.swift in Sources */,
 				9F38B29611409E7D69F3D915 /* DatabaseService.swift in Sources */,
 				FE660B4ABE768C200E0E0382 /* Dream.swift in Sources */,
 				BEFA1F1ED1F23CE0D4D9A1CB /* DreamAnalysisService.swift in Sources */,

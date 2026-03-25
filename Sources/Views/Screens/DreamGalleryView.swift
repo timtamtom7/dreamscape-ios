@@ -61,9 +61,8 @@ struct DreamGalleryView: View {
 
     private var emptyState: some View {
         VStack(spacing: 24) {
-            Image(systemName: "photo.stack")
-                .font(.system(size: 64))
-                .foregroundColor(AppColors.nebulaPink.opacity(0.6))
+            CosmicDreamIllustration(size: 200)
+                .padding(.top, 40)
 
             VStack(spacing: 8) {
                 Text("Your dream gallery awaits")

@@ -35,9 +35,8 @@ struct SymbolsListView: View {
 
     private var emptyState: some View {
         VStack(spacing: 24) {
-            Image(systemName: "star.circle")
-                .font(.system(size: 64))
-                .foregroundColor(AppColors.starGold.opacity(0.6))
+            CosmicDreamIllustration(size: 200)
+                .padding(.top, 40)
 
             VStack(spacing: 8) {
                 Text("No symbols detected")
