@@ -145,6 +145,73 @@ struct SettingsView: View {
                             }
                         }
 
+                        // R3: WBTB Section
+                        settingsSection(title: "Lucid Dreaming") {
+                            Toggle(isOn: Binding(
+                                get: { viewModel.settings.wbtbEnabled },
+                                set: { newValue in
+                                    if newValue {
+                                        Task {
+                                            await viewModel.requestNotificationPermission()
+                                        }
+                                    }
+                                    viewModel.settings.wbtbEnabled = newValue
+                                }
+                            )) {
+                                HStack(spacing: 12) {
+                                    Image(systemName: "alarm.fill")
+                                        .foregroundColor(AppColors.starGold)
+                                    VStack(alignment: .leading, spacing: 2) {
+                                        Text("WBTB Reminders")
+                                            .font(AppFonts.body)
+                                            .foregroundColor(AppColors.textPrimary)
+                                        Text("Wake Back To Bed technique for lucid dreams")
+                                            .font(AppFonts.caption)
+                                            .foregroundColor(AppColors.textSecondary)
+                                    }
+                                }
+                            }
+                            .tint(AppColors.starGold)
+
+                            if viewModel.settings.wbtbEnabled {
+                                VStack(alignment: .leading, spacing: 12) {
+                                    HStack {
+                                        Text("Wake after")
+                                            .font(AppFonts.body)
+                                            .foregroundColor(AppColors.textPrimary)
+                                        Spacer()
+                                        Picker("", selection: Binding(
+                                            get: { viewModel.settings.wbtbHoursAfterSleep },
+                                            set: { viewModel.settings.wbtbHoursAfterSleep = $0 }
+                                        )) {
+                                            ForEach([4, 5, 6], id: \.self) { hours in
+                                                Text("\(hours)h").tag(hours)
+                                            }
+                                        }
+                                        .pickerStyle(.menu)
+                                        .tint(AppColors.auroraCyan)
+                                    }
+
+                                    HStack {
+                                        Text("Stay awake")
+                                            .font(AppFonts.body)
+                                            .foregroundColor(AppColors.textPrimary)
+                                        Spacer()
+                                        Picker("", selection: Binding(
+                                            get: { viewModel.settings.wbtbAwakeMinutes },
+                                            set: { viewModel.settings.wbtbAwakeMinutes = $0 }
+                                        )) {
+                                            ForEach([15, 20, 30, 45, 60], id: \.self) { minutes in
+                                                Text("\(minutes)m").tag(minutes)
+                                            }
+                                        }
+                                        .pickerStyle(.menu)
+                                        .tint(AppColors.auroraCyan)
+                                    }
+                                }
+                            }
+                        }
+
                         // Appearance Section
                         settingsSection(title: "Appearance") {
                             ForEach(AppTheme.allCases) { theme in

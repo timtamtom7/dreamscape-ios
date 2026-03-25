@@ -40,6 +40,13 @@ final class SettingsViewModel: ObservableObject {
         } else {
             cancelMorningNotification()
         }
+
+        // R3: WBTB notification
+        if settings.wbtbEnabled {
+            scheduleWBTBNotification()
+        } else {
+            cancelWBTBNotification()
+        }
     }
 
     func checkNotificationStatus() {
@@ -94,6 +101,41 @@ final class SettingsViewModel: ObservableObject {
     private func cancelMorningNotification() {
         UNUserNotificationCenter.current().removePendingNotificationRequests(
             withIdentifiers: ["morning_dream_prompt"]
+        )
+    }
+
+    // MARK: - WBTB Notifications (R3)
+
+    private func scheduleWBTBNotification() {
+        cancelWBTBNotification()
+
+        let content = UNMutableNotificationContent()
+        content.title = "Lucid Dream Time ⭐"
+        content.body = "Time to wake up! Stay awake for \(settings.wbtbAwakeMinutes) minutes to trigger a lucid dream."
+        content.sound = .default
+        content.categoryIdentifier = "WBTB"
+
+        let calendar = Calendar.current
+        let timeComponents = calendar.dateComponents([.hour, .minute], from: settings.wbtbReminderTime)
+
+        let trigger = UNCalendarNotificationTrigger(dateMatching: timeComponents, repeats: true)
+
+        let request = UNNotificationRequest(
+            identifier: "wbtb_reminder",
+            content: content,
+            trigger: trigger
+        )
+
+        UNUserNotificationCenter.current().add(request) { error in
+            if let error = error {
+                print("Failed to schedule WBTB notification: \(error)")
+            }
+        }
+    }
+
+    private func cancelWBTBNotification() {
+        UNUserNotificationCenter.current().removePendingNotificationRequests(
+            withIdentifiers: ["wbtb_reminder"]
         )
     }
 
