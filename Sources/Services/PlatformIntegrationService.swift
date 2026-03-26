@@ -24,10 +24,15 @@ final class PlatformIntegrationService: ObservableObject {
     func requestHealthKitAuthorization() async -> Bool {
         guard isHealthKitAvailable else { return false }
 
-        let typesToRead: Set<HKObjectType> = [
-            HKObjectType.categoryType(forIdentifier: .sleepAnalysis)!,
-            HKObjectType.quantityType(forIdentifier: .heartRate)!
-        ]
+        var typesToRead: Set<HKObjectType> = []
+        if let sleepType = HKObjectType.categoryType(forIdentifier: .sleepAnalysis) {
+            typesToRead.insert(sleepType)
+        }
+        if let heartRateType = HKObjectType.quantityType(forIdentifier: .heartRate) {
+            typesToRead.insert(heartRateType)
+        }
+
+        guard !typesToRead.isEmpty else { return false }
 
         do {
             try await healthStore.requestAuthorization(toShare: [], read: typesToRead)

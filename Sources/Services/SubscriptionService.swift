@@ -88,7 +88,7 @@ final class SubscriptionService: ObservableObject {
     var isPlus: Bool { currentTier == .plus || currentTier == .pro }
 
     var dreamsThisMonth: Int {
-        let monthStart = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date()))!
+        let monthStart = Calendar.current.date(from: Calendar.current.dateComponents([.year, .month], from: Date())) ?? Date()
         return JournalViewModel().dreams.filter { $0.createdAt >= monthStart }.count
     }
 

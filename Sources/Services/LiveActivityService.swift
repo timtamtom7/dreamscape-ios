@@ -215,7 +215,7 @@ final class LiveActivityService: ObservableObject {
 
             if hadDream {
                 currentStreak += 1
-                checkDate = calendar.date(byAdding: .day, value: -1, to: checkDate)!
+                checkDate = calendar.date(byAdding: .day, value: -1, to: checkDate) ?? checkDate
             } else {
                 break
             }

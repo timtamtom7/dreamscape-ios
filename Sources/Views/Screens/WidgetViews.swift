@@ -361,7 +361,7 @@ struct DreamStreakWidgetView: View {
                     streak = 0
                 }
 
-                currentDate = calendar.date(byAdding: .day, value: -1, to: currentDate)!
+                currentDate = calendar.date(byAdding: .day, value: -1, to: currentDate) ?? currentDate
             }
 
             currentStreak = streak

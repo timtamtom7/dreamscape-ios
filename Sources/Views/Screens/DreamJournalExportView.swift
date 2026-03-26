@@ -361,7 +361,7 @@ final class ExportViewModel: ObservableObject {
                 let sorted = dreams.sorted { $0.createdAt < $1.createdAt }
                 let formatter = DateFormatter()
                 formatter.dateFormat = "MMM yyyy"
-                dateRange = "\(formatter.string(from: sorted.first!.createdAt)) - \(formatter.string(from: sorted.last!.createdAt))"
+                dateRange = "\(formatter.string(from: sorted.first?.createdAt ?? Date())) - \(formatter.string(from: sorted.last?.createdAt ?? Date()))"
 
                 let years = Set(dreams.map { Calendar.current.component(.year, from: $0.createdAt) })
                 availableYears = years.sorted(by: >)

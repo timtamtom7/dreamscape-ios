@@ -32,7 +32,7 @@ final class SleepLabService {
 
     private func setupDatabase() {
         do {
-            let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+            let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first ?? URL(fileURLWithPath: NSTemporaryDirectory())
             let dbPath = documentsPath.appendingPathComponent("dreamscape.sqlite3")
             db = try Connection(dbPath.path)
             createTables()
@@ -124,7 +124,7 @@ final class SleepLabService {
 
         let calendar = Calendar.current
         let startOfDay = calendar.startOfDay(for: date)
-        let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay)!
+        let endOfDay = calendar.date(byAdding: .day, value: 1, to: startOfDay) ?? startOfDay
 
         let query = sleepLabRecords.filter(slDate >= startOfDay && slDate < endOfDay)
         guard let row = try db.pluck(query) else { return nil }

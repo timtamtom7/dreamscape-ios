@@ -239,7 +239,7 @@ struct SymbolDiaryTimeline: View {
             GeometryReader { geometry in
                 HStack(alignment: .center, spacing: 3) {
                     ForEach(0..<monthsInView, id: \.self) { monthIndex in
-                        let monthDate = calendar.date(byAdding: .month, value: -monthIndex, to: Date())!
+                        let monthDate = calendar.date(byAdding: .month, value: -monthIndex, to: Date()) ?? Date()
                         let count = countForMonth(monthDate)
                         let maxCount = maxOccurrencesInAnyMonth
 

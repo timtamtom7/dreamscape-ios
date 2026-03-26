@@ -424,7 +424,7 @@ final class RecurringAnalysisViewModel: ObservableObject {
 
                 return DreamFamily(
                     id: UUID(),
-                    variantId: dreamsInFamily.first?.recurringVariantId ?? dreamsInFamily.first!.id,
+                    variantId: dreamsInFamily.first?.recurringVariantId ?? dreamsInFamily.first?.id ?? UUID(),
                     dreams: dreamsInFamily,
                     sharedTheme: themes.joined(separator: ", "),
                     commonSymbols: Array(symbolCounts)

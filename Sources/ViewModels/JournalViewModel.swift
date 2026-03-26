@@ -41,7 +41,7 @@ final class JournalViewModel: ObservableObject {
             var photoURL: URL?
             if let data = photoData {
                 let filename = UUID().uuidString + ".jpg"
-                let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+                let documentsURL = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first ?? URL(fileURLWithPath: NSTemporaryDirectory())
                 let photosDir = documentsURL.appendingPathComponent("dream_photos", isDirectory: true)
 
                 // Create directory if needed

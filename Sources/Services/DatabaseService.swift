@@ -46,7 +46,7 @@ final class DatabaseService {
 
     private func setupDatabase() {
         do {
-            let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first!
+            let documentsPath = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask).first ?? URL(fileURLWithPath: NSTemporaryDirectory())
             let dbPath = documentsPath.appendingPathComponent("dreamscape.sqlite3")
             db = try Connection(dbPath.path)
             createTables()
@@ -129,7 +129,7 @@ final class DatabaseService {
 
         var result: [Dream] = []
         for row in try db.prepare(dreams.order(dreamCreatedAt.desc)) {
-            let id = UUID(uuidString: row[dreamId])!
+            guard let id = UUID(uuidString: row[dreamId]) else { return [] }
             let dreamSymbolsList = try fetchSymbolsForDream(id: id)
 
             let mood: MoodTag? = row[dreamMood].flatMap { MoodTag(rawValue: $0) }
