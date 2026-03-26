@@ -93,13 +93,14 @@ final class DreamMapViewModel: ObservableObject {
             let x = center.x + radius * cos(angle)
             let y = center.y + radius * sin(angle)
 
-            var symbol = value.symbol
-            symbol = Symbol(
-                id: symbol.id,
-                name: symbol.name,
-                category: symbol.category,
+            var symbol = Symbol(
+                id: value.symbol.id,
+                name: value.symbol.name,
+                category: value.symbol.category,
                 frequency: value.count,
-                lastSeen: symbol.lastSeen
+                lastSeen: value.symbol.lastSeen,
+                emotionalTag: value.symbol.emotionalTag,
+                rarityScore: value.symbol.rarityScore
             )
 
             return MapNode(symbol: symbol, position: CGPoint(x: x, y: y))

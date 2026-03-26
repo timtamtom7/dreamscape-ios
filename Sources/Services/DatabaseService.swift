@@ -129,7 +129,7 @@ final class DatabaseService {
 
         var result: [Dream] = []
         for row in try db.prepare(dreams.order(dreamCreatedAt.desc)) {
-            let id = UUID(uuidString: row[dreamId])!
+            guard let id = UUID(uuidString: row[dreamId]) else { continue }
             let dreamSymbolsList = try fetchSymbolsForDream(id: id)
 
             let mood: MoodTag? = row[dreamMood].flatMap { MoodTag(rawValue: $0) }
