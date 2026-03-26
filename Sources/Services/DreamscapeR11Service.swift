@@ -82,7 +82,6 @@ final class DreamscapeR11Service: ObservableObject {
 
     func shareAnonymously(dream: DreamEntry) -> CommunityDream {
         CommunityDream(
-            id: UUID(),
             dreamContent: dream.content,
             authorAnonymous: true,
             symbolTags: dream.symbols,

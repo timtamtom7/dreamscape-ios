@@ -5,12 +5,31 @@ enum SubscriptionTier: String, Codable, CaseIterable {
     case free = "free"
     case plus = "plus"
     case pro = "pro"
+    case lifetime = "lifetime"
+
+    // R13: Subscription pricing
+    var monthlyPrice: Double? {
+        switch self {
+        case .free: return nil
+        case .plus: return 9.99
+        case .pro: return 19.99
+        case .lifetime: return nil
+        }
+    }
+
+    var lifetimePrice: Double? {
+        switch self {
+        case .lifetime: return 199.0
+        default: return nil
+        }
+    }
 
     var displayName: String {
         switch self {
         case .free: return "Free"
         case .plus: return "Plus"
         case .pro: return "Pro"
+        case .lifetime: return "Lifetime"
         }
     }
 
@@ -20,8 +39,7 @@ enum SubscriptionTier: String, Codable, CaseIterable {
     var monthlyLimit: Int? {
         switch self {
         case .free: return 3
-        case .plus: return nil
-        case .pro: return nil
+        case .plus, .pro, .lifetime: return nil
         }
     }
 
@@ -33,6 +51,8 @@ enum SubscriptionTier: String, Codable, CaseIterable {
             return ["Unlimited dreams", "Cloud sync", "All AI features", "Advanced analytics", "Sleep correlation"]
         case .pro:
             return ["Everything in Plus", "Family sharing", "Export & backup", "iPad & macOS", "Priority AI processing", "Memorial mode"]
+        case .lifetime:
+            return ["Everything in Pro", "One-time payment", "Lifetime access", "Early features", "VIP support"]
         }
     }
 
@@ -41,6 +61,7 @@ enum SubscriptionTier: String, Codable, CaseIterable {
         case .free: return .gray
         case .plus: return AppColors.auroraCyan
         case .pro: return AppColors.starGold
+        case .lifetime: return .purple
         }
     }
 
@@ -49,6 +70,7 @@ enum SubscriptionTier: String, Codable, CaseIterable {
         case .free: return "leaf.fill"
         case .plus: return "star.fill"
         case .pro: return "crown.fill"
+        case .lifetime: return "infinity.circle.fill"
         }
     }
 }

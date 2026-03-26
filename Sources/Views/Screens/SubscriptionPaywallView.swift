@@ -151,8 +151,9 @@ struct SubscriptionPaywallView: View {
     private func tierPrice(_ tier: SubscriptionTier) -> String {
         switch tier {
         case .free: return "Free"
-        case .plus: return "$4.99/mo"
-        case .pro: return "$9.99/mo"
+        case .plus: return "$9.99/mo"
+        case .pro: return "$19.99/mo"
+        case .lifetime: return "$199 (lifetime)"
         }
     }
 
