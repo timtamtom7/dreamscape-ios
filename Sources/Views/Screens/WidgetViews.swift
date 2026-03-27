@@ -23,7 +23,7 @@ struct DreamRecallWidgetView: View {
                     .foregroundColor(AppColors.textPrimary)
                 Spacer()
                 Text(widgetDate)
-                    .font(.caption2)
+                    .font(AppFonts.captionSmall)
                     .foregroundColor(AppColors.textMuted)
             }
             .padding(.horizontal, 16)
@@ -48,7 +48,10 @@ struct DreamRecallWidgetView: View {
                 }
 
                 // Quick log button
-                Button(action: { showingEntrySheet = true }) {
+                Button(action: {
+                    HapticFeedback.medium()
+                    showingEntrySheet = true
+                }) {
                     HStack(spacing: 6) {
                         Image(systemName: "plus.circle.fill")
                         Text(lastDreamSnippet.isEmpty ? "Log Dream" : "Add Another")
@@ -60,15 +63,18 @@ struct DreamRecallWidgetView: View {
                     .background(AppColors.auroraCyan)
                     .cornerRadius(20)
                 }
+                .accessibilityLabel(lastDreamSnippet.isEmpty ? "Log Dream" : "Add Another Dream")
+                .accessibilityAddTraits(.isButton)
             }
             .padding(.horizontal, 16)
             .padding(.bottom, 12)
         }
         .background(
-            RoundedRectangle(cornerRadius: 16)
+            RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.large)
                 .fill(AppColors.surface)
         )
         .padding(.horizontal, 16)
+        .accessibilityElement(children: .combine)
         .onAppear { loadLastDream() }
     }
 

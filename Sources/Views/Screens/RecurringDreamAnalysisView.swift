@@ -306,7 +306,7 @@ struct SymbolEvolutionRow: View {
                                 )
 
                             Text(month)
-                                .font(.system(size: 8))
+                                .font(AppFonts.captionSmall)
                                 .foregroundColor(AppColors.textMuted)
                         }
                     }

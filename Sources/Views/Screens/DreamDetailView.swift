@@ -108,21 +108,32 @@ struct DreamDetailView: View {
         .toolbarColorScheme(.dark, for: .navigationBar)
         .toolbar {
             ToolbarItem(placement: .destructiveAction) {
-                Button(action: { showDeleteAlert = true }) {
+                Button(action: {
+                    HapticFeedback.warning()
+                    showDeleteAlert = true
+                }) {
                     Image(systemName: "trash")
                         .foregroundColor(AppColors.error)
                 }
+                .accessibilityLabel("Delete dream")
+                .accessibilityHint("Double tap to delete this dream")
             }
 
             ToolbarItem(placement: .primaryAction) {
-                Button(action: { showShareSheet = true }) {
+                Button(action: {
+                    HapticFeedback.light()
+                    showShareSheet = true
+                }) {
                     Image(systemName: "square.and.arrow.up")
                         .foregroundColor(AppColors.auroraCyan)
                 }
+                .accessibilityLabel("Share dream")
+                .accessibilityHint("Double tap to share this dream")
             }
         }
         .alert("Delete Dream?", isPresented: $showDeleteAlert) {
             Button("Delete", role: .destructive) {
+                HapticFeedback.warning()
                 journalViewModel.deleteDream(dream)
                 dismiss()
             }

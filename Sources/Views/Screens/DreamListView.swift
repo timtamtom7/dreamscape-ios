@@ -127,6 +127,7 @@ struct DreamListView: View {
 
     private var floatingActionButton: some View {
         Button(action: {
+            HapticFeedback.medium()
             viewModel.showingEntrySheet = true
         }) {
             ZStack {
@@ -140,6 +141,9 @@ struct DreamListView: View {
                     .foregroundColor(AppColors.backgroundPrimary)
             }
         }
+        .accessibilityLabel("Add new dream")
+        .accessibilityHint("Double tap to record a new dream")
+        .accessibilityAddTraits(.isButton)
     }
 }
 

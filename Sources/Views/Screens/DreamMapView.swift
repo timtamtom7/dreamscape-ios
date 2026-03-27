@@ -103,6 +103,7 @@ struct DreamMapView: View {
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
                     Button(action: {
+                        HapticFeedback.medium()
                         withAnimation(.spring(response: 0.4, dampingFraction: 0.7)) {
                             mapScale = 1.0
                             mapOffset = .zero
@@ -113,6 +114,8 @@ struct DreamMapView: View {
                         Image(systemName: "arrow.clockwise")
                             .foregroundColor(AppColors.auroraCyan)
                     }
+                    .accessibilityLabel("Refresh dream map")
+                    .accessibilityHint("Double tap to reload and reset the dream map view")
                 }
             }
             .sheet(item: $selectedSymbolForDetail) { symbol in
@@ -170,6 +173,7 @@ struct DreamMapView: View {
         HStack(spacing: 0) {
             ForEach(MapTimeFilter.allCases, id: \.self) { filter in
                 Button(action: {
+                    HapticFeedback.selection()
                     withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
                         viewModel.setTimeFilter(filter)
                     }
@@ -188,6 +192,8 @@ struct DreamMapView: View {
                                 )
                         )
                 }
+                .accessibilityLabel("\(filter.rawValue) time filter")
+                .accessibilityAddTraits(viewModel.timeFilter == filter ? [.isButton, .isSelected] : .isButton)
             }
         }
         .padding(4)

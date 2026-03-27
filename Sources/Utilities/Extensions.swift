@@ -10,13 +10,13 @@ extension View {
     func cardStyle() -> some View {
         self
             .background(AppColors.surface)
-            .cornerRadius(16)
+            .cornerRadius(DesignTokens.CornerRadius.large)
             .shadow(color: AppColors.cardGlow, radius: 8, x: 0, y: 4)
     }
 
     func glowingBorder(color: Color = AppColors.auroraCyan, width: CGFloat = 1) -> some View {
         self.overlay(
-            RoundedRectangle(cornerRadius: 16)
+            RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.large)
                 .stroke(color.opacity(0.5), lineWidth: width)
         )
     }

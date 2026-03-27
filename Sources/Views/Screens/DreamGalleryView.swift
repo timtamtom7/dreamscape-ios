@@ -30,10 +30,15 @@ struct DreamGalleryView: View {
             .toolbarColorScheme(.dark, for: .navigationBar)
             .toolbar {
                 ToolbarItem(placement: .primaryAction) {
-                    Button(action: { showingSleepCorrelation = true }) {
+                    Button(action: {
+                        HapticFeedback.light()
+                        showingSleepCorrelation = true
+                    }) {
                         Image(systemName: "chart.line.uptrend.xyaxis")
                             .foregroundColor(AppColors.auroraCyan)
                     }
+                    .accessibilityLabel("Sleep correlation")
+                    .accessibilityHint("Double tap to view sleep correlation analysis")
                 }
             }
             .sheet(item: $selectedDream) { dream in
@@ -115,11 +120,30 @@ struct DreamGalleryView: View {
                 label: "Symbols"
             )
 
-            StatCard(
-                icon: "chart.line.uptrend.xyaxis",
-                value: viewModel.correlationScore,
-                label: "Sleep Score"
-            )
+            Button(action: {
+                HapticFeedback.light()
+                showingSleepCorrelation = true
+            }) {
+                VStack(spacing: 4) {
+                    Image(systemName: "chart.line.uptrend.xyaxis")
+                        .font(AppFonts.caption)
+                        .foregroundColor(AppColors.auroraCyan)
+
+                    Text(viewModel.correlationScore)
+                        .font(AppFonts.headline)
+                        .foregroundColor(AppColors.textPrimary)
+
+                    Text("Sleep")
+                        .font(AppFonts.caption)
+                        .foregroundColor(AppColors.textMuted)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 12)
+                .background(AppColors.surface)
+                .cornerRadius(DesignTokens.CornerRadius.medium)
+            }
+            .accessibilityLabel("Sleep correlation score: \(viewModel.correlationScore)")
+            .accessibilityHint("Double tap to view sleep correlation details")
         }
     }
 }
@@ -148,7 +172,7 @@ struct StatCard: View {
     var body: some View {
         VStack(spacing: 4) {
             Image(systemName: icon)
-                .font(.caption)
+                .font(AppFonts.caption)
                 .foregroundColor(AppColors.auroraCyan)
 
             Text(value)
@@ -162,7 +186,7 @@ struct StatCard: View {
         .frame(maxWidth: .infinity)
         .padding(.vertical, 12)
         .background(AppColors.surface)
-        .cornerRadius(12)
+        .cornerRadius(DesignTokens.CornerRadius.medium)
     }
 }
 
@@ -174,8 +198,22 @@ struct GalleryArtCard: View {
 
     @State private var isAppearing = false
 
+    private var accessibilityDescription: String {
+        var desc = "Dream art from \(item.dream.shortFormattedDate)"
+        if let mood = item.dream.mood {
+            desc += ", mood: \(mood.displayName)"
+        }
+        if !item.dream.symbols.isEmpty {
+            desc += ", \(item.dream.symbols.count) symbols"
+        }
+        return desc
+    }
+
     var body: some View {
-        Button(action: onTap) {
+        Button(action: {
+            HapticFeedback.light()
+            onTap()
+        }) {
             VStack(spacing: 0) {
                 // Art preview
                 GeometryReader { geometry in
@@ -198,7 +236,7 @@ struct GalleryArtCard: View {
 
                     if let mood = item.dream.mood {
                         Image(systemName: mood.icon)
-                            .font(.caption2)
+                            .font(AppFonts.caption)
                             .foregroundColor(mood.color)
                     }
                 }
@@ -207,13 +245,16 @@ struct GalleryArtCard: View {
                 .background(AppColors.surface)
             }
             .background(AppColors.surface)
-            .cornerRadius(16)
+            .cornerRadius(DesignTokens.CornerRadius.large)
             .overlay(
-                RoundedRectangle(cornerRadius: 16)
+                RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.large)
                     .stroke(AppColors.cardGlow, lineWidth: 1)
             )
         }
         .buttonStyle(PlainButtonStyle())
+        .accessibilityLabel(accessibilityDescription)
+        .accessibilityAddTraits(.isButton)
+        .accessibilityHint("Double tap to view dream art details")
         .scaleEffect(isAppearing ? 1 : 0.9)
         .opacity(isAppearing ? 1 : 0)
         .onAppear {

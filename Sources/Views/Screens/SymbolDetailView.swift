@@ -251,7 +251,7 @@ struct SymbolDiaryTimeline: View {
                                 .frame(height: max(8, CGFloat(count) / CGFloat(max(maxCount, 1)) * (geometry.size.height - 16)))
 
                             Text(monthAbbreviation(monthDate))
-                                .font(.system(size: 8))
+                                .font(AppFonts.captionSmall)
                                 .foregroundColor(AppColors.textMuted)
                         }
                     }

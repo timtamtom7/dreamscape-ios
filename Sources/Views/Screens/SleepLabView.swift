@@ -126,7 +126,10 @@ struct SleepLabView: View {
 
                 HStack(spacing: 8) {
                     ForEach(SleepQuality.allCases) { quality in
-                        Button(action: { viewModel.selectedQuality = quality }) {
+                        Button(action: {
+                            HapticFeedback.selection()
+                            viewModel.selectedQuality = quality
+                        }) {
                             Text(quality.emoji)
                                 .font(.title2)
                                 .padding(8)
@@ -139,6 +142,8 @@ struct SleepLabView: View {
                                         .stroke(viewModel.selectedQuality == quality ? Color(hex: quality.color) : Color.clear, lineWidth: 2)
                                 )
                         }
+                        .accessibilityLabel("\(quality.displayName) sleep quality")
+                        .accessibilityAddTraits(viewModel.selectedQuality == quality ? [.isButton, .isSelected] : .isButton)
                     }
                 }
             }
@@ -169,12 +174,15 @@ struct SleepLabView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 8) {
                         ForEach(MattressType.allCases) { type in
-                            Button(action: { viewModel.selectedMattress = type }) {
+                            Button(action: {
+                                HapticFeedback.selection()
+                                viewModel.selectedMattress = type
+                            }) {
                                 VStack(spacing: 4) {
                                     Image(systemName: type.icon)
-                                        .font(.caption)
+                                        .font(AppFonts.caption)
                                     Text(type.displayName)
-                                        .font(.caption2)
+                                        .font(AppFonts.captionSmall)
                                 }
                                 .foregroundColor(viewModel.selectedMattress == type ? AppColors.auroraCyan : AppColors.textSecondary)
                                 .padding(.horizontal, 10)
@@ -188,6 +196,8 @@ struct SleepLabView: View {
                                         .stroke(viewModel.selectedMattress == type ? AppColors.auroraCyan : Color.clear, lineWidth: 1)
                                 )
                             }
+                            .accessibilityLabel("\(type.displayName) mattress")
+                            .accessibilityAddTraits(viewModel.selectedMattress == type ? [.isButton, .isSelected] : .isButton)
                         }
                     }
                 }
@@ -216,12 +226,15 @@ struct SleepLabView: View {
 
                 HStack(spacing: 8) {
                     ForEach(SoundLevel.allCases) { sound in
-                        Button(action: { viewModel.selectedSound = sound }) {
+                        Button(action: {
+                            HapticFeedback.selection()
+                            viewModel.selectedSound = sound
+                        }) {
                             VStack(spacing: 4) {
                                 Image(systemName: sound.icon)
-                                    .font(.caption)
+                                    .font(AppFonts.caption)
                                 Text(sound.displayName)
-                                    .font(.caption2)
+                                    .font(AppFonts.captionSmall)
                             }
                             .foregroundColor(viewModel.selectedSound == sound ? AppColors.nebulaPink : AppColors.textSecondary)
                             .padding(.horizontal, 8)
@@ -231,6 +244,8 @@ struct SleepLabView: View {
                                     .fill(viewModel.selectedSound == sound ? AppColors.nebulaPink.opacity(0.2) : AppColors.surfaceElevated)
                             )
                         }
+                        .accessibilityLabel("\(sound.displayName) sound level")
+                        .accessibilityAddTraits(viewModel.selectedSound == sound ? [.isButton, .isSelected] : .isButton)
                     }
                 }
             }
@@ -259,12 +274,15 @@ struct SleepLabView: View {
                 ScrollView(.horizontal, showsIndicators: false) {
                     HStack(spacing: 8) {
                         ForEach(FoodBeforeBed.allCases) { food in
-                            Button(action: { viewModel.selectedFood = food }) {
+                            Button(action: {
+                                HapticFeedback.selection()
+                                viewModel.selectedFood = food
+                            }) {
                                 HStack(spacing: 4) {
                                     Image(systemName: food.icon)
-                                        .font(.caption2)
+                                        .font(AppFonts.caption)
                                     Text(food.displayName)
-                                        .font(.caption2)
+                                        .font(AppFonts.captionSmall)
                                 }
                                 .foregroundColor(viewModel.selectedFood == food ? AppColors.success : AppColors.textSecondary)
                                 .padding(.horizontal, 10)
@@ -274,6 +292,8 @@ struct SleepLabView: View {
                                         .fill(viewModel.selectedFood == food ? AppColors.success.opacity(0.2) : AppColors.surfaceElevated)
                                 )
                             }
+                            .accessibilityLabel("\(food.displayName) food before bed")
+                            .accessibilityAddTraits(viewModel.selectedFood == food ? [.isButton, .isSelected] : .isButton)
                         }
                     }
                 }
@@ -308,7 +328,10 @@ struct SleepLabView: View {
             }
 
             // Save button
-            Button(action: { viewModel.saveRecord() }) {
+            Button(action: {
+                HapticFeedback.success()
+                viewModel.saveRecord()
+            }) {
                 HStack {
                     Image(systemName: "checkmark.circle.fill")
                     Text("Save Sleep Log")
@@ -318,8 +341,10 @@ struct SleepLabView: View {
                 .frame(maxWidth: .infinity)
                 .padding(.vertical, 12)
                 .background(AppColors.auroraCyan)
-                .cornerRadius(12)
+                .cornerRadius(DesignTokens.CornerRadius.medium)
             }
+            .accessibilityLabel("Save Sleep Log")
+            .accessibilityHint("Double tap to save your sleep record")
         }
         .padding(16)
         .background(AppColors.surface)
@@ -382,7 +407,10 @@ struct SleepLabView: View {
     // MARK: - Export CTA
 
     private var exportCTACard: some View {
-        Button(action: { showingExportSheet = true }) {
+        Button(action: {
+            HapticFeedback.light()
+            showingExportSheet = true
+        }) {
             HStack(spacing: 16) {
                 Image(systemName: "doc.richtext.fill")
                     .font(.title2)
@@ -405,8 +433,10 @@ struct SleepLabView: View {
             }
             .padding(16)
             .background(AppColors.surface)
-            .cornerRadius(16)
+            .cornerRadius(DesignTokens.CornerRadius.large)
         }
+        .accessibilityLabel("Export Dream Journal")
+        .accessibilityHint("Create a beautiful PDF book of your dream journey")
     }
 }
 

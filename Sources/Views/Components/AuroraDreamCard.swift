@@ -7,8 +7,30 @@ struct AuroraDreamCard: View {
 
     @State private var isAppearing = false
 
+    private var accessibilityDescription: String {
+        var desc = "Dream from \(dream.shortFormattedDate)"
+        if let mood = dream.mood {
+            desc += ", mood: \(mood.displayName)"
+        }
+        if dream.isLucid {
+            desc += ", lucid dream"
+        }
+        if dream.recurringVariantId != nil {
+            desc += ", recurring dream"
+        }
+        if !dream.symbols.isEmpty {
+            desc += ", \(dream.symbols.count) symbols detected"
+        }
+        let summary = dream.summary.isEmpty ? dream.content.truncated(to: 100) : dream.summary
+        desc += ". \(summary)"
+        return desc
+    }
+
     var body: some View {
-        Button(action: { onTap?() }) {
+        Button(action: {
+            HapticFeedback.light()
+            onTap?()
+        }) {
             VStack(alignment: .leading, spacing: 12) {
                 // Header with aurora accent
                 HStack {
@@ -22,24 +44,24 @@ struct AuroraDreamCard: View {
                         .font(AppFonts.caption)
                         .foregroundColor(AppColors.auroraCyan)
 
-                    // R2: Mood indicator dot
+                    // R2: Mood indicator dot (minimum 8pt visible indicator)
                     if let mood = dream.mood {
                         Circle()
                             .fill(mood.color)
-                            .frame(width: 6, height: 6)
+                            .frame(width: 8, height: 8)
                     }
 
-                    // R2: Lucid indicator
+                    // R2: Lucid indicator (fixed: was .system(size: 8), min 11pt)
                     if dream.isLucid {
                         Image(systemName: "eye.fill")
-                            .font(.system(size: 8))
+                            .font(AppFonts.captionSmall)
                             .foregroundColor(AppColors.nebulaPink)
                     }
 
-                    // Recurring indicator
+                    // Recurring indicator (fixed: was .system(size: 8), min 11pt)
                     if dream.recurringVariantId != nil {
                         Image(systemName: "repeat")
-                            .font(.system(size: 8))
+                            .font(AppFonts.captionSmall)
                             .foregroundColor(AppColors.starGold)
                     }
 
@@ -48,7 +70,7 @@ struct AuroraDreamCard: View {
                     if !dream.symbols.isEmpty {
                         HStack(spacing: 4) {
                             Image(systemName: "sparkles")
-                                .font(.caption2)
+                                .font(AppFonts.caption)
                             Text("\(dream.symbols.count)")
                                 .font(AppFonts.caption)
                         }
@@ -58,7 +80,7 @@ struct AuroraDreamCard: View {
 
                 // Summary with aurora text gradient for important dreams
                 Text(dream.summary.isEmpty ? dream.content.truncated(to: 100) : dream.summary)
-                    .font(AppFonts.body(15))
+                    .font(AppFonts.body)
                     .foregroundColor(AppColors.textPrimary)
                     .lineLimit(2)
                     .multilineTextAlignment(.leading)
@@ -84,17 +106,20 @@ struct AuroraDreamCard: View {
                     AuroraGlow()
                 }
             }
-            .padding(16)
+            .padding(DesignTokens.Spacing.md)
             .background(
-                RoundedRectangle(cornerRadius: 16)
+                RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.large)
                     .fill(AppColors.surface)
             )
             .overlay(
-                RoundedRectangle(cornerRadius: 16)
+                RoundedRectangle(cornerRadius: DesignTokens.CornerRadius.large)
                     .stroke(auroraBorderColor.opacity(0.3), lineWidth: 1)
             )
         }
         .buttonStyle(PlainButtonStyle())
+        .accessibilityLabel(accessibilityDescription)
+        .accessibilityAddTraits(.isButton)
+        .accessibilityHint("Double tap to view dream details")
         .scaleEffect(isAppearing ? 1 : 0.95)
         .opacity(isAppearing ? 1 : 0)
         .onAppear {

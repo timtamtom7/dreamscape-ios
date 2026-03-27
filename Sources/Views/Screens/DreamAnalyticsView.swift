@@ -48,6 +48,7 @@ struct DreamAnalyticsView: View {
             HStack(spacing: 8) {
                 ForEach(TimeRange.allCases, id: \.self) { range in
                     Button {
+                        HapticFeedback.selection()
                         selectedTimeRange = range
                     } label: {
                         Text(range.rawValue)
@@ -58,6 +59,8 @@ struct DreamAnalyticsView: View {
                             .background(selectedTimeRange == range ? AppColors.auroraCyan : AppColors.surface)
                             .cornerRadius(16)
                     }
+                    .accessibilityLabel("\(range.rawValue) time range")
+                    .accessibilityAddTraits(selectedTimeRange == range ? [.isButton, .isSelected] : .isButton)
                 }
             }
         }
@@ -121,7 +124,7 @@ struct DreamAnalyticsView: View {
                         .frame(height: CGFloat(data.count) / CGFloat(maxValue) * 80)
 
                     Text(data.month)
-                        .font(.system(size: 8))
+                        .font(AppFonts.captionSmall)
                         .foregroundColor(AppColors.textMuted)
                 }
             }

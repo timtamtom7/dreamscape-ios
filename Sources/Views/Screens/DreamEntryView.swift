@@ -148,7 +148,10 @@ struct DreamEntryView: View {
                         .frame(maxHeight: 200)
                 }
 
-                Button(action: stopRecording) {
+                Button(action: {
+                    HapticFeedback.medium()
+                    stopRecording()
+                }) {
                     ZStack {
                         Circle()
                             .fill(AppColors.error)
@@ -159,6 +162,8 @@ struct DreamEntryView: View {
                             .foregroundColor(.white)
                     }
                 }
+                .accessibilityLabel("Stop recording")
+                .accessibilityHint("Double tap to stop recording your dream")
             } else {
                 VStack(spacing: 16) {
                     Image(systemName: "mic.fill")
@@ -174,7 +179,10 @@ struct DreamEntryView: View {
                         .foregroundColor(AppColors.textSecondary)
                 }
 
-                Button(action: startRecording) {
+                Button(action: {
+                    HapticFeedback.medium()
+                    startRecording()
+                }) {
                     ZStack {
                         Circle()
                             .fill(AppColors.auroraCyan)
@@ -185,6 +193,8 @@ struct DreamEntryView: View {
                             .foregroundColor(AppColors.backgroundPrimary)
                     }
                 }
+                .accessibilityLabel("Start voice recording")
+                .accessibilityHint("Double tap to start recording your dream")
 
                 if !speechService.transcribedText.isEmpty {
                     VStack(spacing: 8) {
@@ -198,7 +208,7 @@ struct DreamEntryView: View {
                             .multilineTextAlignment(.center)
                             .padding()
                             .background(AppColors.surface.opacity(0.8))
-                            .cornerRadius(12)
+                            .cornerRadius(DesignTokens.CornerRadius.medium)
                     }
                     .padding(.horizontal)
                 }
@@ -310,7 +320,7 @@ struct DreamEntryView: View {
         .padding(.horizontal, 16)
         .padding(.vertical, 10)
         .background(AppColors.surface.opacity(0.8))
-        .cornerRadius(12)
+        .cornerRadius(DesignTokens.CornerRadius.medium)
     }
 
     private var photoAttachmentSection: some View {
@@ -409,10 +419,13 @@ struct MoodChip: View {
     let onTap: () -> Void
 
     var body: some View {
-        Button(action: onTap) {
+        Button(action: {
+            HapticFeedback.selection()
+            onTap()
+        }) {
             HStack(spacing: 6) {
                 Image(systemName: mood.icon)
-                    .font(.caption)
+                    .font(AppFonts.caption)
                 Text(mood.displayName)
                     .font(AppFonts.callout)
             }
@@ -429,6 +442,9 @@ struct MoodChip: View {
             .foregroundColor(isSelected ? mood.color : AppColors.textSecondary)
         }
         .buttonStyle(PlainButtonStyle())
+        .accessibilityLabel("\(mood.displayName) mood")
+        .accessibilityAddTraits(.isButton)
+        .accessibilityHint(isSelected ? "Double tap to deselect" : "Double tap to select")
     }
 }
 

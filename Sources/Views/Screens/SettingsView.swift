@@ -15,7 +15,10 @@ struct SettingsView: View {
                         settingsSection(title: "Cloud Sync") {
                             Toggle(isOn: Binding(
                                 get: { viewModel.settings.cloudSyncEnabled },
-                                set: { viewModel.setCloudSyncEnabled($0) }
+                                set: {
+                                    HapticFeedback.selection()
+                                    viewModel.setCloudSyncEnabled($0)
+                                }
                             )) {
                                 HStack(spacing: 12) {
                                     Image(systemName: "icloud.fill")
@@ -31,6 +34,8 @@ struct SettingsView: View {
                                 }
                             }
                             .tint(AppColors.auroraCyan)
+                            .accessibilityLabel("Enable Cloud Sync")
+                            .accessibilityHint("Sync dreams across devices with end-to-end encryption")
 
                             if viewModel.settings.cloudSyncEnabled {
                                 HStack {
@@ -90,6 +95,7 @@ struct SettingsView: View {
                             Toggle(isOn: Binding(
                                 get: { viewModel.settings.morningPromptEnabled },
                                 set: { newValue in
+                                    HapticFeedback.selection()
                                     if newValue {
                                         Task {
                                             await viewModel.requestNotificationPermission()
@@ -113,6 +119,8 @@ struct SettingsView: View {
                                 }
                             }
                             .tint(AppColors.nebulaPink)
+                            .accessibilityLabel("Morning Dream Prompt")
+                            .accessibilityHint("Get reminded to log your dreams each morning")
 
                             if viewModel.settings.morningPromptEnabled {
                                 Button(action: { showTimePicker = true }) {
@@ -150,6 +158,7 @@ struct SettingsView: View {
                             Toggle(isOn: Binding(
                                 get: { viewModel.settings.wbtbEnabled },
                                 set: { newValue in
+                                    HapticFeedback.selection()
                                     if newValue {
                                         Task {
                                             await viewModel.requestNotificationPermission()
@@ -172,6 +181,8 @@ struct SettingsView: View {
                                 }
                             }
                             .tint(AppColors.starGold)
+                            .accessibilityLabel("WBTB Reminders")
+                            .accessibilityHint("Wake Back To Bed technique for lucid dreams")
 
                             if viewModel.settings.wbtbEnabled {
                                 VStack(alignment: .leading, spacing: 12) {
@@ -215,7 +226,10 @@ struct SettingsView: View {
                         // Appearance Section
                         settingsSection(title: "Appearance") {
                             ForEach(AppTheme.allCases) { theme in
-                                Button(action: { viewModel.setTheme(theme) }) {
+                                Button(action: {
+                                    HapticFeedback.selection()
+                                    viewModel.setTheme(theme)
+                                }) {
                                     HStack {
                                         Text(theme.displayName)
                                             .font(AppFonts.body)
@@ -227,6 +241,8 @@ struct SettingsView: View {
                                         }
                                     }
                                 }
+                                .accessibilityLabel("\(theme.displayName) theme")
+                                .accessibilityAddTraits(viewModel.settings.selectedTheme == theme ? [.isButton, .isSelected] : .isButton)
                             }
                         }
 

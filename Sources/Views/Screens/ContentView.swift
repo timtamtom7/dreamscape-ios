@@ -129,31 +129,48 @@ struct JournalTabHost: View {
             .toolbar {
                 ToolbarItem(placement: .navigationBarLeading) {
                     HStack(spacing: 16) {
-                        Button(action: { showingRecurringAnalysis = true }) {
+                        Button(action: {
+                            HapticFeedback.light()
+                            showingRecurringAnalysis = true
+                        }) {
                             Image(systemName: "repeat.circle")
                                 .foregroundColor(AppColors.starGold)
                         }
+                        .accessibilityLabel("Recurring dream analysis")
+                        .accessibilityHint("Double tap to view recurring dream patterns")
 
                         // R4: Sleep Lab
-                        Button(action: { showingSleepLab = true }) {
+                        Button(action: {
+                            HapticFeedback.light()
+                            showingSleepLab = true
+                        }) {
                             Image(systemName: "bed.double.fill")
                                 .foregroundColor(AppColors.nebulaPink)
                         }
+                        .accessibilityLabel("Sleep Lab")
+                        .accessibilityHint("Double tap to open sleep lab")
                     }
                 }
 
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack(spacing: 16) {
                         // R4: Community
-                        Button(action: { showingCommunity = true }) {
+                        Button(action: {
+                            HapticFeedback.light()
+                            showingCommunity = true
+                        }) {
                             Image(systemName: "person.3.fill")
                                 .foregroundColor(AppColors.auroraCyan)
                         }
+                        .accessibilityLabel("Community")
+                        .accessibilityHint("Double tap to open dream community")
 
                         NavigationLink(destination: LucidDreamingCoachView()) {
                             Image(systemName: "eye.fill")
                                 .foregroundColor(AppColors.nebulaPink)
                         }
+                        .accessibilityLabel("Lucid dreaming coach")
+                        .accessibilityHint("Double tap to open lucid dreaming coach")
                     }
                 }
             }
@@ -170,6 +187,7 @@ struct JournalTabHost: View {
         HStack(spacing: 0) {
             ForEach(JournalSection.allCases, id: \.self) { section in
                 Button(action: {
+                    HapticFeedback.selection()
                     withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
                         selectedSection = section
                     }
@@ -188,6 +206,8 @@ struct JournalTabHost: View {
                                 )
                         )
                 }
+                .accessibilityLabel("\(section.rawValue) section")
+                .accessibilityAddTraits(selectedSection == section ? [.isButton, .isSelected] : .isButton)
             }
         }
         .padding(4)
@@ -317,6 +337,7 @@ struct DreamListViewContent: View {
 
     private var floatingActionButton: some View {
         Button(action: {
+            HapticFeedback.medium()
             viewModel.showingEntrySheet = true
         }) {
             ZStack {
@@ -330,6 +351,9 @@ struct DreamListViewContent: View {
                     .foregroundColor(AppColors.backgroundPrimary)
             }
         }
+        .accessibilityLabel("Add new dream")
+        .accessibilityHint("Double tap to record a new dream")
+        .accessibilityAddTraits(.isButton)
     }
 }
 
@@ -406,10 +430,13 @@ struct DreamGalleryContent: View {
                         label: "Symbols"
                     )
 
-                    Button(action: { showingSleepCorrelation = true }) {
+                    Button(action: {
+                        HapticFeedback.light()
+                        showingSleepCorrelation = true
+                    }) {
                         VStack(spacing: 4) {
                             Image(systemName: "chart.line.uptrend.xyaxis")
-                                .font(.caption)
+                                .font(AppFonts.caption)
                                 .foregroundColor(AppColors.auroraCyan)
 
                             Text(viewModel.correlationScore)
@@ -423,8 +450,10 @@ struct DreamGalleryContent: View {
                         .frame(maxWidth: .infinity)
                         .padding(.vertical, 12)
                         .background(AppColors.surface)
-                        .cornerRadius(12)
+                        .cornerRadius(DesignTokens.CornerRadius.medium)
                     }
+                    .accessibilityLabel("Sleep correlation score: \(viewModel.correlationScore)")
+                    .accessibilityHint("Double tap to view sleep correlation details")
                 }
                 .padding(.horizontal)
 

@@ -167,20 +167,20 @@ struct SymbolRow: View {
                 HStack(spacing: 6) {
                     // Rarity indicator
                     Image(systemName: symbol.rarityLevel.icon)
-                        .font(.system(size: 8))
+                        .font(AppFonts.captionSmall)
                         .foregroundColor(symbol.rarityLevel.color)
 
                     Text(symbol.rarityLevel.rawValue)
-                        .font(.system(size: 9))
+                        .font(AppFonts.captionSmall)
                         .foregroundColor(symbol.rarityLevel.color)
 
                     // Emotional tag if present
                     if let emotionalTag = symbol.emotionalTag {
                         Text("•")
-                            .font(.system(size: 8))
+                            .font(AppFonts.captionSmall)
                             .foregroundColor(AppColors.textMuted)
                         Text(emotionalTag)
-                            .font(.system(size: 9))
+                            .font(AppFonts.captionSmall)
                             .foregroundColor(AppColors.nebulaPink)
                     }
                 }

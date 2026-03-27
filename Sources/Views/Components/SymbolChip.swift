@@ -7,18 +7,21 @@ struct SymbolChip: View {
     var onTap: (() -> Void)?
 
     var body: some View {
-        Button(action: { onTap?() }) {
+        Button(action: {
+            HapticFeedback.selection()
+            onTap?()
+        }) {
             HStack(spacing: 4) {
                 if !compact {
                     Image(systemName: symbol.category.icon)
-                        .font(.caption2)
+                        .font(AppFonts.caption) // Fixed: was .caption2 (too small)
                 }
 
                 Text(symbol.name)
-                    .font(compact ? AppFonts.caption : AppFonts.callout)
+                    .font(compact ? AppFonts.captionSmall : AppFonts.callout)
             }
             .padding(.horizontal, compact ? 8 : 12)
-            .padding(.vertical, compact ? 4 : 6)
+            .padding(.vertical, compact ? 6 : 8) // Fixed: increased from 4/6 to meet touch target
             .background(
                 Capsule()
                     .fill(isSelected ? symbol.category.color.opacity(0.3) : symbol.category.color.opacity(0.15))
@@ -30,6 +33,9 @@ struct SymbolChip: View {
             .foregroundColor(isSelected ? symbol.category.color : symbol.category.color.opacity(0.9))
         }
         .buttonStyle(PlainButtonStyle())
+        .accessibilityLabel("\(symbol.name), category: \(symbol.category.displayName)")
+        .accessibilityAddTraits(.isButton)
+        .accessibilityHint(isSelected ? "Double tap to deselect" : "Double tap to select")
     }
 }
 
