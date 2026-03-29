@@ -49,6 +49,8 @@ enum Theme {
     )
 }
 
+// MARK: - Color Hex Init
+
 extension Color {
     init(hex: String) {
         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
@@ -73,4 +75,20 @@ extension Color {
             opacity: Double(a) / 255
         )
     }
+
+    // MARK: - Semantic Colors
+
+    static let nsBackground = Color(hex: "0A0A14")
+    static let nsBackgroundSecondary = Color(hex: "12101F")
+    static let nsSurface = Color(hex: "1A1830")
+    static let nsSurfaceElevated = Color(hex: "221E38")
+    static let nsAccentPrimary = Color(hex: "5EEAD4")
+    static let nsAccentSecondary = Color(hex: "C084FC")
+    static let nsAccentTertiary = Color(hex: "FCD34D")
+    static let nsTextPrimary = Color(hex: "F0F0FF")
+    static let nsTextSecondary = Color(hex: "8B8BA7")
+    static let nsTextMuted = Color(hex: "5C5C7A")
+    static let nsSuccess = Color(hex: "34D399")
+    static let nsWarning = Color(hex: "FBBF24")
+    static let nsError = Color(hex: "F87171")
 }
