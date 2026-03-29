@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		25A6925B194E95A3CD07B12F /* MenuBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B7FABD9744EC0292D45B6D /* MenuBarView.swift */; };
 		435E955D904E09B97D0CDD4E /* Symbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7B9EE1A9AB85A375F7EADD /* Symbol.swift */; };
+		6059FEA37C55C5FB1988FC0E /* AIDreamService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7635B34ECB6010F60F6D2D0C /* AIDreamService.swift */; };
 		9713D085FA75EACD16C994E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A608D937A0AE59742529D552 /* AppDelegate.swift */; };
 		9C6AC5A09798C021AE902DA8 /* DreamDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0EDD73249BB1AB8D3F65F0 /* DreamDetailView.swift */; };
 		A9B2E3A00495B19B41216D7A /* Dream.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76C7C11D5DEE1D324B5D86C /* Dream.swift */; };
@@ -18,16 +19,19 @@
 		BF2E8B372C6660F8B03DD6EE /* DreamAnalysisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B765338848175FA88A738C50 /* DreamAnalysisView.swift */; };
 		C8719024184666394A032E3D /* DreamJournalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935AD2C08EA8FDD243BC9584 /* DreamJournalView.swift */; };
 		D3967CE6D26638407A584A48 /* DreamCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721577C0BF905A74E1585A8 /* DreamCard.swift */; };
+		D426D4AB49002C018AC80802 /* SymbolService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0BEA33E3005A6CA19500FF1B /* SymbolService.swift */; };
 		DD3741CA0A968D55A90C0A06 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8131D2A8DEE4D6042BCFBE6D /* main.swift */; };
 		F9709784A5E568EB7112FC75 /* StarFieldBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A71B5BD29F1831797469C54 /* StarFieldBackground.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0BEA33E3005A6CA19500FF1B /* SymbolService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SymbolService.swift; sourceTree = "<group>"; };
 		27AB81F53ED9DD94C9A41F5A /* DreamStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DreamStore.swift; sourceTree = "<group>"; };
 		3A71B5BD29F1831797469C54 /* StarFieldBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarFieldBackground.swift; sourceTree = "<group>"; };
 		47F3FB09279C8BA260B21361 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		5721577C0BF905A74E1585A8 /* DreamCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DreamCard.swift; sourceTree = "<group>"; };
 		57B7FABD9744EC0292D45B6D /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
+		7635B34ECB6010F60F6D2D0C /* AIDreamService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AIDreamService.swift; sourceTree = "<group>"; };
 		8131D2A8DEE4D6042BCFBE6D /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
 		8B0EDD73249BB1AB8D3F65F0 /* DreamDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DreamDetailView.swift; sourceTree = "<group>"; };
 		935AD2C08EA8FDD243BC9584 /* DreamJournalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DreamJournalView.swift; sourceTree = "<group>"; };
@@ -76,7 +80,9 @@
 		7DACCE380B4EB5615B83884E /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				7635B34ECB6010F60F6D2D0C /* AIDreamService.swift */,
 				27AB81F53ED9DD94C9A41F5A /* DreamStore.swift */,
+				0BEA33E3005A6CA19500FF1B /* SymbolService.swift */,
 			);
 			path = Services;
 			sourceTree = "<group>";
@@ -180,6 +186,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6059FEA37C55C5FB1988FC0E /* AIDreamService.swift in Sources */,
 				9713D085FA75EACD16C994E6 /* AppDelegate.swift in Sources */,
 				A9B2E3A00495B19B41216D7A /* Dream.swift in Sources */,
 				BF2E8B372C6660F8B03DD6EE /* DreamAnalysisView.swift in Sources */,
@@ -191,6 +198,7 @@
 				F9709784A5E568EB7112FC75 /* StarFieldBackground.swift in Sources */,
 				B31B14992351775BE0BD0921 /* StatsView.swift in Sources */,
 				435E955D904E09B97D0CDD4E /* Symbol.swift in Sources */,
+				D426D4AB49002C018AC80802 /* SymbolService.swift in Sources */,
 				BD5F38A131BC8ABB9F7DB865 /* Theme.swift in Sources */,
 				DD3741CA0A968D55A90C0A06 /* main.swift in Sources */,
 			);
