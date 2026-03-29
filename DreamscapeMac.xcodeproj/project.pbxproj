@@ -16,6 +16,7 @@
 		A9B2E3A00495B19B41216D7A /* Dream.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76C7C11D5DEE1D324B5D86C /* Dream.swift */; };
 		AF2CCFA05C755B401A24858D /* DreamStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB81F53ED9DD94C9A41F5A /* DreamStore.swift */; };
 		B31B14992351775BE0BD0921 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE83F0AC5ACB87333E1521B7 /* StatsView.swift */; };
+		BB9CAB2C6EC13138A433FA14 /* APPSTORE.md in Resources */ = {isa = PBXBuildFile; fileRef = FEE6E2644548C6CEA5E32922 /* APPSTORE.md */; };
 		BD5F38A131BC8ABB9F7DB865 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F3FB09279C8BA260B21361 /* Theme.swift */; };
 		BF2E8B372C6660F8B03DD6EE /* DreamAnalysisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B765338848175FA88A738C50 /* DreamAnalysisView.swift */; };
 		C85B58EEE00B5566543DB8B7 /* DreamSharingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4665E07879EBA837AB93D7E8 /* DreamSharingService.swift */; };
@@ -48,6 +49,7 @@
 		BE83F0AC5ACB87333E1521B7 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
 		F76C7C11D5DEE1D324B5D86C /* Dream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dream.swift; sourceTree = "<group>"; };
 		FBAAF0761D9B6FFA79B7137D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		FEE6E2644548C6CEA5E32922 /* APPSTORE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = APPSTORE.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXGroup section */
@@ -56,6 +58,7 @@
 			children = (
 				FBAAF0761D9B6FFA79B7137D /* Info.plist */,
 				92855187C2710891C247C1F5 /* App */,
+				79360C4AA50725CB2FEF8A50 /* Marketing */,
 				B5E8F12D28316F82569F72BA /* Models */,
 				7DACCE380B4EB5615B83884E /* Services */,
 				D89ABE3D144D1C1A0F43D151 /* Views */,
@@ -75,6 +78,14 @@
 				BE83F0AC5ACB87333E1521B7 /* StatsView.swift */,
 			);
 			path = Screens;
+			sourceTree = "<group>";
+		};
+		79360C4AA50725CB2FEF8A50 /* Marketing */ = {
+			isa = PBXGroup;
+			children = (
+				FEE6E2644548C6CEA5E32922 /* APPSTORE.md */,
+			);
+			path = Marketing;
 			sourceTree = "<group>";
 		};
 		797D450D08E71F2CA713C3E8 = {
@@ -149,6 +160,7 @@
 			buildConfigurationList = CE33D55E3137E1E1777E2EFE /* Build configuration list for PBXNativeTarget "DreamscapeMac" */;
 			buildPhases = (
 				73EEE477ECDA4F650D7FE3FE /* Sources */,
+				69EC16B5754699717402F861 /* Resources */,
 			);
 			buildRules = (
 			);
@@ -189,6 +201,17 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		69EC16B5754699717402F861 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				BB9CAB2C6EC13138A433FA14 /* APPSTORE.md in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		73EEE477ECDA4F650D7FE3FE /* Sources */ = {
