@@ -1,0 +1,387 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 54;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		25A6925B194E95A3CD07B12F /* MenuBarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 57B7FABD9744EC0292D45B6D /* MenuBarView.swift */; };
+		435E955D904E09B97D0CDD4E /* Symbol.swift in Sources */ = {isa = PBXBuildFile; fileRef = BD7B9EE1A9AB85A375F7EADD /* Symbol.swift */; };
+		9713D085FA75EACD16C994E6 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A608D937A0AE59742529D552 /* AppDelegate.swift */; };
+		9C6AC5A09798C021AE902DA8 /* DreamDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8B0EDD73249BB1AB8D3F65F0 /* DreamDetailView.swift */; };
+		A9B2E3A00495B19B41216D7A /* Dream.swift in Sources */ = {isa = PBXBuildFile; fileRef = F76C7C11D5DEE1D324B5D86C /* Dream.swift */; };
+		AF2CCFA05C755B401A24858D /* DreamStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 27AB81F53ED9DD94C9A41F5A /* DreamStore.swift */; };
+		B31B14992351775BE0BD0921 /* StatsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BE83F0AC5ACB87333E1521B7 /* StatsView.swift */; };
+		BD5F38A131BC8ABB9F7DB865 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 47F3FB09279C8BA260B21361 /* Theme.swift */; };
+		BF2E8B372C6660F8B03DD6EE /* DreamAnalysisView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B765338848175FA88A738C50 /* DreamAnalysisView.swift */; };
+		C8719024184666394A032E3D /* DreamJournalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 935AD2C08EA8FDD243BC9584 /* DreamJournalView.swift */; };
+		D3967CE6D26638407A584A48 /* DreamCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5721577C0BF905A74E1585A8 /* DreamCard.swift */; };
+		DD3741CA0A968D55A90C0A06 /* main.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8131D2A8DEE4D6042BCFBE6D /* main.swift */; };
+		F9709784A5E568EB7112FC75 /* StarFieldBackground.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3A71B5BD29F1831797469C54 /* StarFieldBackground.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		27AB81F53ED9DD94C9A41F5A /* DreamStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DreamStore.swift; sourceTree = "<group>"; };
+		3A71B5BD29F1831797469C54 /* StarFieldBackground.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StarFieldBackground.swift; sourceTree = "<group>"; };
+		47F3FB09279C8BA260B21361 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		5721577C0BF905A74E1585A8 /* DreamCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DreamCard.swift; sourceTree = "<group>"; };
+		57B7FABD9744EC0292D45B6D /* MenuBarView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuBarView.swift; sourceTree = "<group>"; };
+		8131D2A8DEE4D6042BCFBE6D /* main.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = main.swift; sourceTree = "<group>"; };
+		8B0EDD73249BB1AB8D3F65F0 /* DreamDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DreamDetailView.swift; sourceTree = "<group>"; };
+		935AD2C08EA8FDD243BC9584 /* DreamJournalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DreamJournalView.swift; sourceTree = "<group>"; };
+		9F08ACDCEC18C4CA967C64A6 /* DreamscapeMac.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DreamscapeMac.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A608D937A0AE59742529D552 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		B765338848175FA88A738C50 /* DreamAnalysisView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DreamAnalysisView.swift; sourceTree = "<group>"; };
+		BD7B9EE1A9AB85A375F7EADD /* Symbol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Symbol.swift; sourceTree = "<group>"; };
+		BE83F0AC5ACB87333E1521B7 /* StatsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatsView.swift; sourceTree = "<group>"; };
+		F76C7C11D5DEE1D324B5D86C /* Dream.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Dream.swift; sourceTree = "<group>"; };
+		FBAAF0761D9B6FFA79B7137D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		69CCC5D8D4DB955CA8FA969E /* DreamscapeMac */ = {
+			isa = PBXGroup;
+			children = (
+				FBAAF0761D9B6FFA79B7137D /* Info.plist */,
+				92855187C2710891C247C1F5 /* App */,
+				B5E8F12D28316F82569F72BA /* Models */,
+				7DACCE380B4EB5615B83884E /* Services */,
+				D89ABE3D144D1C1A0F43D151 /* Views */,
+			);
+			path = DreamscapeMac;
+			sourceTree = "<group>";
+		};
+		7675F4C6D134DE6EEEADC9F7 /* Screens */ = {
+			isa = PBXGroup;
+			children = (
+				B765338848175FA88A738C50 /* DreamAnalysisView.swift */,
+				8B0EDD73249BB1AB8D3F65F0 /* DreamDetailView.swift */,
+				935AD2C08EA8FDD243BC9584 /* DreamJournalView.swift */,
+				57B7FABD9744EC0292D45B6D /* MenuBarView.swift */,
+				BE83F0AC5ACB87333E1521B7 /* StatsView.swift */,
+			);
+			path = Screens;
+			sourceTree = "<group>";
+		};
+		797D450D08E71F2CA713C3E8 = {
+			isa = PBXGroup;
+			children = (
+				69CCC5D8D4DB955CA8FA969E /* DreamscapeMac */,
+				D429DA5CC7C41DEFC2D3ED78 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		7DACCE380B4EB5615B83884E /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				27AB81F53ED9DD94C9A41F5A /* DreamStore.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		92855187C2710891C247C1F5 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				A608D937A0AE59742529D552 /* AppDelegate.swift */,
+				8131D2A8DEE4D6042BCFBE6D /* main.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		AA1D377FD46E6F26126F41AD /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				5721577C0BF905A74E1585A8 /* DreamCard.swift */,
+				3A71B5BD29F1831797469C54 /* StarFieldBackground.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		B5E8F12D28316F82569F72BA /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				F76C7C11D5DEE1D324B5D86C /* Dream.swift */,
+				BD7B9EE1A9AB85A375F7EADD /* Symbol.swift */,
+				47F3FB09279C8BA260B21361 /* Theme.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		D429DA5CC7C41DEFC2D3ED78 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				9F08ACDCEC18C4CA967C64A6 /* DreamscapeMac.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		D89ABE3D144D1C1A0F43D151 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				AA1D377FD46E6F26126F41AD /* Components */,
+				7675F4C6D134DE6EEEADC9F7 /* Screens */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		3E0D419D2D62BF836879BD46 /* DreamscapeMac */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = CE33D55E3137E1E1777E2EFE /* Build configuration list for PBXNativeTarget "DreamscapeMac" */;
+			buildPhases = (
+				73EEE477ECDA4F650D7FE3FE /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = DreamscapeMac;
+			productName = DreamscapeMac;
+			productReference = 9F08ACDCEC18C4CA967C64A6 /* DreamscapeMac.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		50D44E8B709E1F9BC1E7D428 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+					3E0D419D2D62BF836879BD46 = {
+						ProvisioningStyle = Manual;
+					};
+				};
+			};
+			buildConfigurationList = CA7866BBCE756F1F0B09B8E1 /* Build configuration list for PBXProject "DreamscapeMac" */;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 797D450D08E71F2CA713C3E8;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				3E0D419D2D62BF836879BD46 /* DreamscapeMac */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		73EEE477ECDA4F650D7FE3FE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9713D085FA75EACD16C994E6 /* AppDelegate.swift in Sources */,
+				A9B2E3A00495B19B41216D7A /* Dream.swift in Sources */,
+				BF2E8B372C6660F8B03DD6EE /* DreamAnalysisView.swift in Sources */,
+				D3967CE6D26638407A584A48 /* DreamCard.swift in Sources */,
+				9C6AC5A09798C021AE902DA8 /* DreamDetailView.swift in Sources */,
+				C8719024184666394A032E3D /* DreamJournalView.swift in Sources */,
+				AF2CCFA05C755B401A24858D /* DreamStore.swift in Sources */,
+				25A6925B194E95A3CD07B12F /* MenuBarView.swift in Sources */,
+				F9709784A5E568EB7112FC75 /* StarFieldBackground.swift in Sources */,
+				B31B14992351775BE0BD0921 /* StatsView.swift in Sources */,
+				435E955D904E09B97D0CDD4E /* Symbol.swift in Sources */,
+				BD5F38A131BC8ABB9F7DB865 /* Theme.swift in Sources */,
+				DD3741CA0A968D55A90C0A06 /* main.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		609CF4EC58757470BE024E6B /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = DreamscapeMac/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tommaso.dreamscape.mac;
+				PRODUCT_NAME = Dreamscape;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		A629554C71D24A3554289816 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Release;
+		};
+		AD215E752BB74EA19E72C704 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = macosx;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 5.0;
+			};
+			name = Debug;
+		};
+		C3BAC3397F2F73DA4A8E1749 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CODE_SIGN_IDENTITY = "-";
+				CODE_SIGN_STYLE = Manual;
+				COMBINE_HIDPI_IMAGES = YES;
+				ENABLE_HARDENED_RUNTIME = YES;
+				INFOPLIST_FILE = DreamscapeMac/Info.plist;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/../Frameworks",
+				);
+				MACOSX_DEPLOYMENT_TARGET = 15.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tommaso.dreamscape.mac;
+				PRODUCT_NAME = Dreamscape;
+				SDKROOT = macosx;
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		CA7866BBCE756F1F0B09B8E1 /* Build configuration list for PBXProject "DreamscapeMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AD215E752BB74EA19E72C704 /* Debug */,
+				A629554C71D24A3554289816 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		CE33D55E3137E1E1777E2EFE /* Build configuration list for PBXNativeTarget "DreamscapeMac" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				609CF4EC58757470BE024E6B /* Debug */,
+				C3BAC3397F2F73DA4A8E1749 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 50D44E8B709E1F9BC1E7D428 /* Project object */;
+}

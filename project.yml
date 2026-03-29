@@ -1,110 +1,23 @@
-name: Dreamscape
+name: DreamscapeMac
 options:
-  bundleIdPrefix: com.dreamscape
+  bundleIdPrefix: com.tommaso
   deploymentTarget:
-    iOS: "26.0"
     macOS: "15.0"
-  xcodeVersion: "16.0"
-  generateEmptyDirectories: true
-  groupSortPosition: top
-
-settings:
-  base:
-    SWIFT_VERSION: "6.0"
-    TARGETED_DEVICE_FAMILY: "1,2"
-    MARKETING_VERSION: "1.0.0"
-    CURRENT_PROJECT_VERSION: "1"
-    DEVELOPMENT_TEAM: ""
-    CODE_SIGN_STYLE: Automatic
-    ENABLE_USER_SCRIPT_SANDBOXING: false
-
-packages:
-  SQLite:
-    url: https://github.com/stephencelis/SQLite.swift
-    from: "0.15.0"
-
 targets:
-  Dreamscape:
-    type: application
-    platform: iOS
-    sources:
-      - path: Sources
-        excludes:
-          - "**/.DS_Store"
-          - "**/Info.plist"
-    resources:
-      - path: Sources/Resources
-        excludes:
-          - "**/Info.plist"
-    settings:
-      base:
-        INFOPLIST_FILE: Sources/Resources/Info.plist
-        PRODUCT_BUNDLE_IDENTIFIER: com.dreamscape.app
-        PRODUCT_MODULE_NAME: Dreamscape
-        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
-        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
-        LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/Frameworks"
-        SWIFT_EMIT_LOC_STRINGS: true
-        GENERATE_INFOPLIST_FILE: false
-    entitlements:
-      path: Sources/Resources/Dreamscape.entitlements
-      properties:
-        com.apple.developer.icloud-container-identifiers:
-          - iCloud.com.dreamscape.app
-        com.apple.developer.icloud-services:
-          - CloudKit
-        com.apple.developer.ubiquity-kvstore-identifier: $(TeamIdentifierPrefix)com.dreamscape.app
-    dependencies:
-      - package: SQLite
-        product: SQLite
-      - target: DreamscapeMac
-        embed: true
-
   DreamscapeMac:
     type: application
     platform: macOS
     sources:
-      - path: DreamscapeMac/Sources
-      - path: Sources/Models
-      - path: Sources/Services/DatabaseService.swift
-      - path: Sources/Services/DreamAnalysisService.swift
-      - path: Sources/Models/DreamIncubation.swift
-      - path: Sources/Utilities
-    resources:
-      - path: Sources/Resources/Assets.xcassets
-    settings:
-      base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.dreamscape.app.macos
-        PRODUCT_MODULE_NAME: DreamscapeMac
-        GENERATE_INFOPLIST_FILE: YES
-        MACOSX_DEPLOYMENT_TARGET: "15.0"
-        INFOPLIST_KEY_NSHumanReadableCopyright: "Copyright 2026"
-        INFOPLIST_KEY_CFBundleDisplayName: "Dreamscape"
-        COMBINE_HIDPI_IMAGES: YES
-        CODE_SIGN_IDENTITY: ""
-        CODE_SIGNING_REQUIRED: NO
-        CODE_SIGNING_ALLOWED: NO
-        ENABLE_USER_SCRIPT_SANDBOXING: NO
-    dependencies:
-      - package: SQLite
-        product: SQLite
-      - sdk: SwiftUI.framework
-      - sdk: AppKit.framework
-
-  DreamscapeWidgets:
-    type: app-extension
-    platform: iOS
-    sources:
-      - path: DreamscapeWidgets
+      - path: DreamscapeMac
         excludes:
-          - "**/.DS_Store"
+          - "*.md"
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.dreamscape.app.widgets
-        PRODUCT_MODULE_NAME: DreamscapeWidgets
-        INFOPLIST_FILE: DreamscapeWidgets/Resources/Info.plist
-        GENERATE_INFOPLIST_FILE: false
-        LD_RUNPATH_SEARCH_PATHS: "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks"
-        SKIP_INSTALL: YES
-        CODE_SIGN_ENTITLEMENTS: ""
-    dependencies: []
+        PRODUCT_BUNDLE_IDENTIFIER: com.tommaso.dreamscape.mac
+        PRODUCT_NAME: Dreamscape
+        INFOPLIST_FILE: DreamscapeMac/Info.plist
+        SWIFT_VERSION: "6.0"
+        MACOSX_DEPLOYMENT_TARGET: "15.0"
+        CODE_SIGN_IDENTITY: "-"
+        CODE_SIGN_STYLE: Manual
+        ENABLE_HARDENED_RUNTIME: YES
