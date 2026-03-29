@@ -1,23 +1,58 @@
-name: DreamscapeMac
+name: Dreamscape
 options:
   bundleIdPrefix: com.tommaso
   deploymentTarget:
-    macOS: "15.0"
+    iOS: "26.0"
+  xcodeVersion: "16.0"
+  generateEmptyDirectories: true
+  groupSortPosition: top
+
+settings:
+  base:
+    SWIFT_VERSION: "6.0"
+    IPHONEOS_DEPLOYMENT_TARGET: "26.0"
+    CODE_SIGN_STYLE: Manual
+    CODE_SIGN_IDENTITY: "-"
+    DEVELOPMENT_TEAM: ""
+
+packages:
+  SQLite:
+    url: https://github.com/stephencelis/SQLite.swift
+    from: "0.16.0"
+
 targets:
-  DreamscapeMac:
+  Dreamscape:
     type: application
-    platform: macOS
+    platform: iOS
     sources:
-      - path: DreamscapeMac
+      - path: Sources
         excludes:
           - "*.md"
+          - "DreamscapeMac/**"
     settings:
       base:
-        PRODUCT_BUNDLE_IDENTIFIER: com.tommaso.dreamscape.mac
+        PRODUCT_BUNDLE_IDENTIFIER: com.tommaso.dreamscape
         PRODUCT_NAME: Dreamscape
-        INFOPLIST_FILE: DreamscapeMac/Info.plist
+        INFOPLIST_FILE: Sources/Resources/Info.plist
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
         SWIFT_VERSION: "6.0"
-        MACOSX_DEPLOYMENT_TARGET: "15.0"
-        CODE_SIGN_IDENTITY: "-"
+        IPHONEOS_DEPLOYMENT_TARGET: "26.0"
         CODE_SIGN_STYLE: Manual
+        CODE_SIGN_IDENTITY: "-"
+        DEVELOPMENT_TEAM: ""
         ENABLE_HARDENED_RUNTIME: YES
+        CODE_SIGNING_REQUIRED: NO
+        CODE_SIGNING_ALLOWED: NO
+    entitlements:
+      path: Sources/Resources/Dreamscape.entitlements
+    dependencies:
+      - package: SQLite
+        product: SQLite
+
+schemes:
+  Dreamscape:
+    build:
+      targets:
+        Dreamscape: all
+    run:
+      config: Release
