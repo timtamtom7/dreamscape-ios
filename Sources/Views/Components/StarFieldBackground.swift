@@ -79,7 +79,6 @@ struct StarFieldBackground: View {
             }
         }
         .ignoresSafeArea()
-        .accessibilityReduceMotion(true)
         .onAppear {
             generateStars()
         }
