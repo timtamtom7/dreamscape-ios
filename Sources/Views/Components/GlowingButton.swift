@@ -40,6 +40,8 @@ struct GlowingButton: View {
                 .onChanged { _ in isPressed = true }
                 .onEnded { _ in isPressed = false }
         )
+        .accessibilityLabel(title)
+        .accessibilityHint("Tap to \(title.lowercased())")
     }
 }
 

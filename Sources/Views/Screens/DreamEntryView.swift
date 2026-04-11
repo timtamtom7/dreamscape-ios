@@ -185,6 +185,7 @@ struct DreamEntryView: View {
                             .foregroundColor(AppColors.backgroundPrimary)
                     }
                 }
+                .accessibilityLabel("Start voice recording")
 
                 if !speechService.transcribedText.isEmpty {
                     VStack(spacing: 8) {

@@ -1,8 +1,10 @@
 import SwiftUI
 
+#if !os(watchOS)
 struct StarFieldBackground: View {
     let starCount: Int
 
+    @Environment(\.accessibilityReduceMotion) private var reduceMotion
     @State private var stars: [Star] = []
 
     struct Star: Identifiable, Equatable {
@@ -30,16 +32,27 @@ struct StarFieldBackground: View {
                 )
 
                 // Stars with TimelineView for proper animation
-                TimelineView(.animation(minimumInterval: 0.5)) { timeline in
+                if reduceMotion {
+                    // Static display when reduce motion is enabled
                     ForEach(stars) { star in
-                        let time = timeline.date.timeIntervalSinceReferenceDate
-                        let animatedOpacity = 0.3 + 0.4 * sin(time * (1 + star.animationDelay) + star.animationDuration)
-
                         Circle()
                             .fill(Color.white)
                             .frame(width: star.size, height: star.size)
                             .position(x: star.x * geometry.size.width, y: star.y * geometry.size.height)
-                            .opacity(animatedOpacity)
+                            .opacity(star.opacity)
+                    }
+                } else {
+                    TimelineView(.animation(minimumInterval: 0.5)) { timeline in
+                        ForEach(stars) { star in
+                            let time = timeline.date.timeIntervalSinceReferenceDate
+                            let animatedOpacity = 0.3 + 0.4 * sin(time * (1 + star.animationDelay) + star.animationDuration)
+
+                            Circle()
+                                .fill(Color.white)
+                                .frame(width: star.size, height: star.size)
+                                .position(x: star.x * geometry.size.width, y: star.y * geometry.size.height)
+                                .opacity(animatedOpacity)
+                        }
                     }
                 }
 
@@ -66,6 +79,7 @@ struct StarFieldBackground: View {
             }
         }
         .ignoresSafeArea()
+        .accessibilityReduceMotion(true)
         .onAppear {
             generateStars()
         }
@@ -84,6 +98,27 @@ struct StarFieldBackground: View {
         }
     }
 }
+#else
+// watchOS: simplified static background
+struct StarFieldBackground: View {
+    let starCount: Int
+
+    var body: some View {
+        ZStack {
+            LinearGradient(
+                colors: [
+                    AppColors.backgroundPrimary,
+                    Color(hex: "0D0B1E"),
+                    AppColors.backgroundSecondary
+                ],
+                startPoint: .top,
+                endPoint: .bottom
+            )
+        }
+        .ignoresSafeArea()
+    }
+}
+#endif
 
 struct AnimatedStarField: View {
     var body: some View {
